@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/dghubble/gologin/v2/twitter"
 	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
 	"github.com/dghubble/oauth1"
@@ -24,9 +25,28 @@ func main() {
 	}
 	mux := http.NewServeMux()
 	mux.Handle("/login", twitter.LoginHandler(config, nil))
-	//mux.Handle("/callback", twitter.CallbackHandler(config, issueSession(), nil))
+	mux.Handle("/callback", twitter.CallbackHandler(config, issueSession(), nil))
 	err = http.ListenAndServe("localhost:8080", mux)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+}
+
+func issueSession() http.Handler {
+	fn := func(w http.ResponseWriter, req *http.Request) {
+		ctx := req.Context()
+		twitterUser, err := twitter.UserFromContext(ctx)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Println(twitterUser)
+		//// 2. Implement a success handler to issue some form of session
+		//session := sessionStore.New(sessionName)
+		//session.Values[sessionUserKey] = twitterUser.ID
+		//session.Values[sessionUsername] = twitterUser.ScreenName
+		//session.Save(w)
+		http.Redirect(w, req, "/", http.StatusFound)
+	}
+	return http.HandlerFunc(fn)
 }
