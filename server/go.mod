@@ -7,5 +7,6 @@ require (
 	github.com/dghubble/gologin v2.1.0+incompatible // indirect
 	github.com/dghubble/gologin/v2 v2.2.0
 	github.com/dghubble/oauth1 v0.7.0
+	github.com/gin-gonic/gin v1.6.3
 	github.com/kelseyhightower/envconfig v1.4.0
 )

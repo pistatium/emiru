@@ -8,6 +8,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"log"
 	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -23,10 +24,10 @@ func main() {
 		CallbackURL:    "http://localhost:8080/callback",
 		Endpoint:       twitterOAuth1.AuthorizeEndpoint,
 	}
-	mux := http.NewServeMux()
-	mux.Handle("/login", twitter.LoginHandler(config, nil))
-	mux.Handle("/callback", twitter.CallbackHandler(config, issueSession(), nil))
-	err = http.ListenAndServe("localhost:8080", mux)
+	g := gin.Default()
+	g.GET("/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
+	g.GET("/callback", gin.WrapH(twitter.CallbackHandler(config, issueSession(), nil)))
+	err = g.Run("localhost:8080")
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
