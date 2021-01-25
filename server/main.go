@@ -32,12 +32,12 @@ func main() {
 	config := &oauth1.Config{
 		ConsumerKey:    env.TwitterConsumerKey,
 		ConsumerSecret: env.TwitterConsumerSecret,
-		CallbackURL:    "http://localhost:8080/callback",
+		CallbackURL:    "http://localhost:8080/app/callback",
 		Endpoint:       twitterOAuth1.AuthorizeEndpoint,
 	}
 	g := gin.Default()
-	g.GET("/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
-	g.GET("/callback", gin.WrapH(twitter.CallbackHandler(config, issueSession(idGenerator), nil)))
+	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
+	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, issueSession(idGenerator), nil)))
 	err = g.Run("localhost:8080")
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
