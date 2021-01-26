@@ -30,7 +30,7 @@ services:
       - ./server:/opt/app
     links:
       - datastore:datastore
-    command: /bin/sh -c 'go mod download && go run -mod=vendor .'
+    command: /bin/sh -c 'go get -u github.com/cosmtrek/air && air'
 
   datastore:
     image: google/cloud-sdk

@@ -38,7 +38,7 @@ func main() {
 	g := gin.Default()
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
 	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, issueSession(idGenerator), nil)))
-	err = g.Run(fmt.Sprintf("localhost:%s", env.Port))
+	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
