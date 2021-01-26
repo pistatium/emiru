@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/dghubble/gologin/v2/twitter"
-	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
 	oauth1Login "github.com/dghubble/gologin/v2/oauth1"
+	"github.com/dghubble/gologin/v2/twitter"
 	"github.com/dghubble/oauth1"
+	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
+	"github.com/gin-gonic/gin"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pistatium/emiru/impl/snowflake"
 	"github.com/pistatium/emiru/repositories"
 	"log"
 	"math/rand"
 	"net/http"
-	"github.com/gin-gonic/gin"
 	"time"
 )
 
