@@ -30,7 +30,7 @@ services:
       - ./server:/opt/app
     links:
       - datastore:datastore
-    command: go run -mod=vendor .
+    command: /bin/sh -c 'go mod download && go run -mod=vendor .'
 
   datastore:
     image: google/cloud-sdk
