@@ -32,7 +32,7 @@ func main() {
 	config := &oauth1.Config{
 		ConsumerKey:    env.TwitterConsumerKey,
 		ConsumerSecret: env.TwitterConsumerSecret,
-		CallbackURL:    "http://localhost:8080/app/callback",
+		CallbackURL:    env.AppURL + "/app/callback",
 		Endpoint:       twitterOAuth1.AuthorizeEndpoint,
 	}
 	g := gin.Default()

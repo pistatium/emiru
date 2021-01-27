@@ -25,6 +25,7 @@ services:
       - TWITTER_CONSUMER_KEY
       - TWITTER_CONSUMER_SECRET
       - PORT=8080
+      - APP_URL=http://localhost:${LOCAL_PORT}
     working_dir: /opt/app
     volumes:
       - ./server:/opt/app
