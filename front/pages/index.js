@@ -1,8 +1,17 @@
-import styles from '../styles/Home.module.css'
+import Header from '../components/Header';
 
 export default function Home() {
     return (
-        <div className={styles.container}>
+        <div className="md:container md:mx-auto">
+            <Header
+                title={'emiru - Topページ'}
+                image={''}
+                url={''}
+            />
+
+            <div className="relative bg-white overflow-hidden">
+                <h1>emiru</h1>
+            </div>
 
             <form className="max-w-md w-full" action="/app/login" method="GET">
                 <div>
@@ -11,7 +20,7 @@ export default function Home() {
                     </button>
                 </div>
             </form>
-            <footer className={styles.footer}>
+            <footer className="footer">
                 <a
                     href="https://github.com/pistatium"
                     target="_blank"
