@@ -5,4 +5,5 @@ type Env struct {
 	TwitterConsumerSecret string `required:"true" envconfig:"TWITTER_CONSUMER_SECRET"`
 	Port string `default:"8080" envconfig:"PORT"`
 	AppURL string `required:"true" envconfig:"APP_URL"`
+	IsDebug bool `default:"true" envconfig:"IS_DEBUG"`
 }

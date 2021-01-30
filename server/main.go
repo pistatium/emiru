@@ -37,14 +37,14 @@ func main() {
 	}
 	g := gin.Default()
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
-	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, issueSession(idGenerator), nil)))
+	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(idGenerator, env.IsDebug), nil)))
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
-func issueSession(idGenerator repositories.UniqueIDGenerator) http.Handler {
+func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, isDebug bool) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		accessToken, accessSecret, err := oauth1Login.AccessTokenFromContext(ctx)
@@ -56,7 +56,9 @@ func issueSession(idGenerator repositories.UniqueIDGenerator) http.Handler {
 
 		user := repositories.NewUser(idGenerator, twitterUser.ScreenName, accessToken, accessSecret)
 		fmt.Println(user)
-		http.Redirect(w, req, "/", http.StatusFound)
+		cookie := generateSessionCookie(user, !isDebug)
+		http.SetCookie(w, cookie)
+		http.Redirect(w, req, "/logged", http.StatusFound)
 	}
 	return http.HandlerFunc(fn)
 }
