@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"context"
 	"crypto/rand"
 	"fmt"
 	"github.com/pistatium/emiru/entities"
@@ -23,4 +24,9 @@ func generateSecureSecret(length int) string {
 		panic(err)
 	}
 	return fmt.Sprintf("%x", k)
+}
+
+type UserStore interface {
+	Save(ctx context.Context, user *entities.User) error
+	LoadFromID(ctx context.Context, id string) (user *entities.User, err error)
 }

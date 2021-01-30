@@ -8,6 +8,7 @@ import (
 	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
 	"github.com/gin-gonic/gin"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/pistatium/emiru/impl/datastore"
 	"github.com/pistatium/emiru/impl/snowflake"
 	"github.com/pistatium/emiru/repositories"
 	"log"
@@ -29,6 +30,8 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
+	userStore := datastore.NewUserStore(env.DatastoreProjectID)
+
 	config := &oauth1.Config{
 		ConsumerKey:    env.TwitterConsumerKey,
 		ConsumerSecret: env.TwitterConsumerSecret,
@@ -37,14 +40,14 @@ func main() {
 	}
 	g := gin.Default()
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
-	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(idGenerator, env.IsDebug), nil)))
+	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(idGenerator, userStore, env.IsDebug), nil)))
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
-func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, isDebug bool) http.Handler {
+func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, userStore repositories.UserStore, isDebug bool) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		accessToken, accessSecret, err := oauth1Login.AccessTokenFromContext(ctx)
@@ -53,12 +56,15 @@ func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, isDebug 
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
 		user := repositories.NewUser(idGenerator, twitterUser.ScreenName, accessToken, accessSecret)
-		fmt.Println(user)
+		err = userStore.Save(ctx, user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		cookie := generateSessionCookie(user, !isDebug)
 		http.SetCookie(w, cookie)
-		http.Redirect(w, req, "/logged", http.StatusFound)
+		http.Redirect(w, req, "/", http.StatusFound)
 	}
 	return http.HandlerFunc(fn)
 }
