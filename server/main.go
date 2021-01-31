@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pistatium/emiru/impl/datastore"
-	"github.com/pistatium/emiru/impl/snowflake"
 	"github.com/pistatium/emiru/repositories"
 	"log"
 	"math/rand"
@@ -25,10 +24,6 @@ func main() {
 	}
 
 	rand.Seed(time.Now().UnixNano())
-	idGenerator, err := snowflake.New(int64(rand.Intn(1024)))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
 
 	userStore := datastore.NewUserStore(env.DatastoreProjectID)
 
@@ -40,14 +35,14 @@ func main() {
 	}
 	g := gin.Default()
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
-	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(idGenerator, userStore, env.IsDebug), nil)))
+	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
-func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, userStore repositories.UserStore, isDebug bool) http.Handler {
+func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		accessToken, accessSecret, err := oauth1Login.AccessTokenFromContext(ctx)
@@ -56,7 +51,8 @@ func onCompleteTwitterLogin(idGenerator repositories.UniqueIDGenerator, userStor
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		user := repositories.NewUser(idGenerator, twitterUser.ScreenName, accessToken, accessSecret)
+
+		user := repositories.NewUser(twitterUser.ID, twitterUser.ScreenName, accessToken, accessSecret)
 		err = userStore.Save(ctx, user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

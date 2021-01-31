@@ -1,7 +1,7 @@
 package entities
 
 type User struct {
-	ID UniqueID
+	ID string
 	Secret string
 	Name string
 	TwitterAccessKey string

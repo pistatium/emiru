@@ -7,15 +7,18 @@ import (
 	"github.com/pistatium/emiru/entities"
 )
 
-
-func NewUser(idGenerator UniqueIDGenerator, name string, twitterAccessKey string, twitterAccessSecret string) *entities.User {
-	return &entities.User {
-		ID: idGenerator.Generate(),
-		Secret: generateSecureSecret(32),
-		Name: name,
-		TwitterAccessKey: twitterAccessKey,
+func NewUser(id int64, name string, twitterAccessKey string, twitterAccessSecret string) *entities.User {
+	return &entities.User{
+		ID:                  idFromTwitter(id),
+		Secret:              generateSecureSecret(32),
+		Name:                name,
+		TwitterAccessKey:    twitterAccessKey,
 		TwitterAccessSecret: twitterAccessSecret,
 	}
+}
+
+func idFromTwitter(id int64) string {
+	return fmt.Sprintf("twitter:%d", id)
 }
 
 func generateSecureSecret(length int) string {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/pistatium/emiru/entities"
 	"net/http"
+	"time"
 )
 
 const SessionCookieName = "EMIRU_SESSION"
@@ -16,5 +17,6 @@ func generateSessionCookie(u *entities.User, secure bool) *http.Cookie {
 		Secure: secure,
 		HttpOnly: true,
 		Path: "/",
+		Expires: time.Now().Add(7 * 24 * time.Hour),
 	}
 }

@@ -3,7 +3,6 @@ module github.com/pistatium/emiru
 go 1.13
 
 require (
-	cloud.google.com/go v0.75.0
 	cloud.google.com/go/datastore v1.4.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cosmtrek/air v1.21.2 // indirect
