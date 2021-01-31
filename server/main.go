@@ -33,7 +33,11 @@ func main() {
 		CallbackURL:    env.AppURL + "/app/callback",
 		Endpoint:       twitterOAuth1.AuthorizeEndpoint,
 	}
+	if !env.IsDebug {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	g := gin.Default()
+	g.Use(gin.Recovery())
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
 	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
@@ -58,7 +62,12 @@ func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		cookie := generateSessionCookie(user, !isDebug)
+		ti := &TokenInfo{
+			Provider: "twitter",
+			UserID:   user.ID,
+			Secret:   user.Secret,
+		}
+		cookie := generateSessionCookie(ti, !isDebug)
 		http.SetCookie(w, cookie)
 		http.Redirect(w, req, "/", http.StatusFound)
 	}
