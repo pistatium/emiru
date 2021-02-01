@@ -4,6 +4,7 @@ import (
 	ds "cloud.google.com/go/datastore"
 	"context"
 	"github.com/pistatium/emiru/entities"
+	"github.com/pistatium/emiru/repositories"
 	"time"
 )
 
@@ -12,6 +13,7 @@ type UserStore struct {
 }
 
 const DatastoreUserKind = "user"
+
 type DatastoreUser struct {
 	ID                  string     `datastore:"-"`
 	Secret              string     `datastore:"secret,noindex"`
@@ -23,7 +25,7 @@ type DatastoreUser struct {
 	Thumbnail           string     `datastore:thumbnail,noindex`
 }
 
-func NewUserStore(projectID string) *UserStore {
+func NewUserStore(projectID string) repositories.UserStore {
 	return &UserStore{projectID: projectID}
 }
 
@@ -34,12 +36,12 @@ func (u UserStore) Save(ctx context.Context, user *entities.User) error {
 	}
 	now := time.Now()
 	du := &DatastoreUser{
-		ID:                 string(user.ID),
+		ID:                  string(user.ID),
 		Secret:              user.Secret,
 		Name:                user.Name,
 		TwitterAccessKey:    user.TwitterAccessKey,
 		TwitterAccessSecret: user.TwitterAccessSecret,
-		CreatedAt:           &now,  // FIXME: 上書きしない
+		CreatedAt:           &now, // FIXME: 上書きしない
 		UpdatedAt:           &now,
 		Thumbnail:           "",
 	}
@@ -51,7 +53,23 @@ func (u UserStore) Save(ctx context.Context, user *entities.User) error {
 }
 
 func (u UserStore) LoadFromID(ctx context.Context, id string) (user *entities.User, err error) {
-	panic("implement me")
+	client, err := u.getClient(ctx)
+	if err != nil {
+		return nil, err
+	}
+	key := ds.NameKey(DatastoreUserKind, id, nil)
+	du := &DatastoreUser{}
+	if err = client.Get(ctx, key, du); err != nil {
+		return nil, err
+	}
+	user = &entities.User{
+		ID:                  id,
+		Secret:              du.Secret,
+		Name:                du.Name,
+		TwitterAccessKey:    du.TwitterAccessKey,
+		TwitterAccessSecret: du.TwitterAccessSecret,
+	}
+	return user, nil
 }
 
 func (u UserStore) getClient(ctx context.Context) (client *ds.Client, err error) {

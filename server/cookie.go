@@ -3,36 +3,31 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"regexp"
+	"strings"
 	"time"
 )
 
 const SessionCookieName = "EMIRU_SESSION"
 
-var tokenPattern = regexp.MustCompile(`(?P<provider>\w):(?P<userid>\w)-(?P<secret>\w)`)
 
 type TokenInfo struct {
-	Provider string
 	UserID string
 	Secret string
 }
 
 func (t *TokenInfo) Serialize() string {
-	return fmt.Sprintf("%s:%s-%s", t.Provider, t.UserID, t.Secret)
+	return fmt.Sprintf("%s-%s", t.UserID, t.Secret)
 }
 
-func NewFromToken(ts string) (TokenInfo, error) {
-	m := tokenPattern.FindStringSubmatch(ts)
-	ti := TokenInfo{}
-	for i, name := range tokenPattern.SubexpNames() {
-		switch name {
-		case "provider": ti.Provider = m[i]
-		case "userid": ti.UserID = m[i]
-		case "secret": ti.Secret = m[i]
-		default: continue
-		}
+func NewFromToken(token string) (*TokenInfo, error) {
+	ts := strings.Split(token, "-")
+	if len(ts) != 2 {
+		return nil, fmt.Errorf("invalid token format")
 	}
-	return ti, nil
+	return &TokenInfo{
+		UserID: ts[0],
+		Secret: ts[1],
+	}, nil
 }
 
 func generateSessionCookie(t *TokenInfo, secure bool) *http.Cookie {

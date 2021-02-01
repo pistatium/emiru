@@ -36,10 +36,14 @@ func main() {
 	if !env.IsDebug {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	server := NewServer(userStore)
+
 	g := gin.Default()
 	g.Use(gin.Recovery())
+	g.Use(server.LoginMiddleware())
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
 	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
+	g.GET("/app/api/users/me", server.GetCurrentUser)
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -55,15 +59,15 @@ func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		userID := repositories.IdFromTwitter(twitterUser.ID)
 
-		user := repositories.NewUser(twitterUser.ID, twitterUser.ScreenName, accessToken, accessSecret)
+		user := repositories.NewUser(userID, twitterUser.ScreenName, accessToken, accessSecret)
 		err = userStore.Save(ctx, user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		ti := &TokenInfo{
-			Provider: "twitter",
 			UserID:   user.ID,
 			Secret:   user.Secret,
 		}
