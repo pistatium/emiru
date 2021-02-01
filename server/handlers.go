@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/dghubble/go-twitter/twitter"
+	"github.com/dghubble/oauth1"
 	"github.com/gin-gonic/gin"
 	"github.com/pistatium/emiru/entities"
 	"github.com/pistatium/emiru/repositories"
@@ -9,11 +11,15 @@ import (
 
 type Server struct {
 	userStore repositories.UserStore
+	twitterClientKey string
+	twitterClientSecret string
 }
 
-func NewServer(userStore repositories.UserStore) *Server {
+func NewServer(userStore repositories.UserStore, twitterClientKey string, twitterClientSecret string) *Server {
 	return &Server{
 		userStore: userStore,
+		twitterClientKey: twitterClientKey,
+		twitterClientSecret: twitterClientSecret,
 	}
 }
 
@@ -60,5 +66,23 @@ func (s *Server) GetCurrentUser(ctx *gin.Context) {
 		UserID: user.ID,
 		Name:   user.Name,
 	})
+	return
+}
+
+func (s *Server) GetTweets(ctx *gin.Context) {
+	user := ctx.MustGet(ContextUserKey).(*entities.User)
+	c := oauth1.NewConfig(s.twitterClientKey, s.twitterClientSecret)
+	t := oauth1.NewToken(user.TwitterAccessKey, user.TwitterAccessSecret)
+	httpClient := c.Client(ctx.Request.Context(), t)
+
+	twClient := twitter.NewClient(httpClient)
+	tweets, _, err := twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
+		Count: 20,
+	})
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, tweets)
 	return
 }

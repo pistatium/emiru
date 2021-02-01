@@ -7,7 +7,7 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/creack/pty v1.1.11 // indirect
-	github.com/dghubble/go-twitter v0.0.0-20201011215211-4b180d0cc78d // indirect
+	github.com/dghubble/go-twitter v0.0.0-20201011215211-4b180d0cc78d
 	github.com/dghubble/gologin v2.1.0+incompatible // indirect
 	github.com/dghubble/gologin/v2 v2.2.0
 	github.com/dghubble/oauth1 v0.7.0

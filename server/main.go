@@ -36,7 +36,7 @@ func main() {
 	if !env.IsDebug {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	server := NewServer(userStore)
+	server := NewServer(userStore, config.ConsumerKey, config.ConsumerSecret)
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
@@ -44,6 +44,7 @@ func main() {
 	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
 	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
 	g.GET("/app/api/users/me", server.GetCurrentUser)
+	g.GET("/app/api/tweets", server.GetTweets)
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
