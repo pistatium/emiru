@@ -7,6 +7,7 @@ import (
 	"github.com/pistatium/emiru/entities"
 	"github.com/pistatium/emiru/repositories"
 	"net/http"
+	"time"
 )
 
 type Server struct {
@@ -77,13 +78,42 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 
 	twClient := twitter.NewClient(httpClient)
 	tweets, _, err := twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
-		Count: 20,
+		Count:              200,
+		SinceID:            0,
+		ExcludeReplies:     twitter.Bool(true),
+		ContributorDetails: nil,
+		IncludeEntities:    twitter.Bool(true),
+		TweetMode:          "extended",
 	})
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, tweets)
+	res := make([]*entities.Tweet, 0)
+	for i, _ := range tweets {
+		if len(tweets[i].Entities.Media) > 0 {
+			tw := &tweets[i]
+			images := make([]*entities.Image, 0)
+			for _, media := range tweets[i].Entities.Media {
+				images = append(images, &entities.Image{
+					Url: media.MediaURLHttps,
+				})
+			}
+			res = append(res, &entities.Tweet{
+				ID:        tw.IDStr,
+				Text:      tw.FullText,
+				Author:    &entities.TweetUser{
+					Name:    tw.User.Name,
+					Icon:    tw.User.ProfileBackgroundImageURLHttps,
+					Profile: tw.User.Description,
+				},
+				Images:    images,
+				CreatedAt: time.Time{},
+			})
+		}
+	}
+	ctx.JSON(http.StatusOK, res)
 
 	return
 }
