@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 	"github.com/gin-gonic/gin"
@@ -70,6 +71,10 @@ func (s *Server) GetCurrentUser(ctx *gin.Context) {
 	return
 }
 
+type GetTweetResponse struct {
+    Tweets []*entities.Tweet `json:"tweets"`
+}
+
 func (s *Server) GetTweets(ctx *gin.Context) {
 	user := ctx.MustGet(ContextUserKey).(*entities.User)
 	c := oauth1.NewConfig(s.twitterClientKey, s.twitterClientSecret)
@@ -90,7 +95,7 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	res := make([]*entities.Tweet, 0)
+	resTweets := make([]*entities.Tweet, 0)
 	for i, _ := range tweets {
 		if len(tweets[i].Entities.Media) > 0 {
 			tw := &tweets[i]
@@ -100,7 +105,7 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 					Url: media.MediaURLHttps,
 				})
 			}
-			res = append(res, &entities.Tweet{
+			resTweets = append(resTweets, &entities.Tweet{
 				ID:        tw.IDStr,
 				Text:      tw.FullText,
 				Author:    &entities.TweetUser{
@@ -113,7 +118,10 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 			})
 		}
 	}
-	ctx.JSON(http.StatusOK, res)
+	fmt.Println(resTweets)
+	ctx.JSON(http.StatusOK, GetTweetResponse{
+		Tweets: resTweets,
+	})
 
 	return
 }

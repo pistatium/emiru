@@ -3,19 +3,19 @@ package entities
 import "time"
 
 type Image struct {
-	Url string
+	Url string `json:"url"`
 }
 
 type TweetUser struct {
-	Name string
-	Icon string
-	Profile string
+	Name string `json:"name"`
+	Icon string `json:"icon"`
+	Profile string `json:"profile"`
 }
 
 type Tweet struct {
-	ID string
-	Text string
-	Author *TweetUser
-	Images []*Image
-	CreatedAt time.Time
+	ID string `json:"id"`
+	Text string `json:"text"`
+	Author *TweetUser `json:"author"`
+	Images []*Image `json:"images"`
+	CreatedAt time.Time `json:"created_at"`
 }
