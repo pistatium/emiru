@@ -15,4 +15,4 @@
 vendor/
 tmp/
 
-dummy_data/
+../front/public/dummy_data/

@@ -2,7 +2,8 @@ import Header from '../components/Header'
 import axios from "axios"
 import useSWR from "swr"
 
-const fetcher = () => axios('/app/api/tweets').then(res => res.data)
+const fetcher = () => axios('/app/api/tweets').then(res => res.data.tweets)
+//const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data.tweets)
 
 
 export default function Main(props) {
@@ -22,24 +23,23 @@ export default function Main(props) {
                 </div>
             </div>
 
-            { data?.map(tw => (
+
+            { data?.filter(tw => !tw.text.startsWith('RT')).map(tw => (
                 <div className="shadow bg-white">
-                    <div className=" bg-size bg-cover bg-center">
-                        <img src={tw.Images[0].Url} alt=""/>
-                        <div className="p-4 h-32 flex items-end text-white">
-                            <h3 className="mb-2">Card Title</h3>
+                    <div className="bg-size bg-cover bg-center" style={{backgroundImage: 'url(' + tw.images[0].url + ')' }}>
+                        <div className="p-4 h-64 flex items-end text-white">
+                            <h3 className="mb-2"></h3>
                         </div>
 
                         <div className="relative">
-                            <button
-                                className="bg-blue-500 hover:bg-blue-400 absolute right- mr-4 -mt-8 flex justify-center items-center rounded-full h-12 w-12 p-2">
-                                <i className="material-icons text-white">add_to_queue</i></button>
+                            <img className="right-0 w-16 h-16 rounded-full mr-4 shadow-lg absolute -mt-8" src={tw.author.icon} alt={tw.author.name} />
                         </div>
                     </div>
                     <div className="p-4">
-                        <p className="text-gray-600 text-sm">{tw.Text}</p>
+                        <p className="text-gray-600 text-sm">{tw.text}</p>
+                        {tw.created_at}
                         <div className="mt-4">
-                            <a href="#" className="no-underline mr-4 text-blue-500 hover:text-blue-400">Link 1</a>
+                            <a href="#" className="no-underline mr-4 text-blue-500 hover:text-blue-400">{tw.url}</a>
                         </div>
                     </div>
                 </div>

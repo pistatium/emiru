@@ -107,6 +107,7 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 			}
 			resTweets = append(resTweets, &entities.Tweet{
 				ID:        tw.IDStr,
+				URL:       fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
 				Text:      tw.FullText,
 				Author:    &entities.TweetUser{
 					Name:    tw.User.Name,
@@ -118,7 +119,6 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 			})
 		}
 	}
-	fmt.Println(resTweets)
 	ctx.JSON(http.StatusOK, GetTweetResponse{
 		Tweets: resTweets,
 	})
