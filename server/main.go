@@ -74,7 +74,7 @@ func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http
 		}
 		cookie := generateSessionCookie(ti, !isDebug)
 		http.SetCookie(w, cookie)
-		http.Redirect(w, req, "/", http.StatusFound)
+		http.Redirect(w, req, "/main", http.StatusFound)
 	}
 	return http.HandlerFunc(fn)
 }

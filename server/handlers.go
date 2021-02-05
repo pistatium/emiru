@@ -8,7 +8,6 @@ import (
 	"github.com/pistatium/emiru/entities"
 	"github.com/pistatium/emiru/repositories"
 	"net/http"
-	"time"
 )
 
 type Server struct {
@@ -98,12 +97,21 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 	resTweets := make([]*entities.Tweet, 0)
 	for i, _ := range tweets {
 		if len(tweets[i].Entities.Media) > 0 {
+			isRetweet := false
 			tw := &tweets[i]
+			if tw.RetweetedStatus != nil {
+				tw = tw.RetweetedStatus
+				isRetweet = true
+			}
 			images := make([]*entities.Image, 0)
 			for _, media := range tweets[i].Entities.Media {
 				images = append(images, &entities.Image{
 					Url: media.MediaURLHttps,
 				})
+			}
+			createdAt, err := tw.CreatedAtTime()
+			if err != nil {
+				continue
 			}
 			resTweets = append(resTweets, &entities.Tweet{
 				ID:        tw.IDStr,
@@ -115,7 +123,8 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 					Profile: tw.User.Description,
 				},
 				Images:    images,
-				CreatedAt: time.Time{},
+				CreatedAt: createdAt,
+				IsRetweet: isRetweet,
 			})
 		}
 	}

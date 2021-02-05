@@ -19,4 +19,5 @@ type Tweet struct {
 	Author *TweetUser `json:"author"`
 	Images []*Image `json:"images"`
 	CreatedAt time.Time `json:"created_at"`
+	IsRetweet bool `json:"is_retweet"`
 }
