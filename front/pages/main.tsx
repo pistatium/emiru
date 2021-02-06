@@ -2,32 +2,29 @@ import Header from '../components/Header'
 import axios from "axios"
 import useSWR from "swr"
 import Images from "../components/Images";
+import {Tweet} from "../types/tweets";
 
-const fetcher = () => axios('/app/api/tweets').then(res => res.data.tweets)
-//const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data.tweets)
+//const fetcher = () => axios('/app/api/tweets').then(res => res.data)
+const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
 
 
 export default function Main(props) {
     const {data, error} = useSWR('/api/tweets', fetcher, {revalidateOnFocus: false, revalidateOnReconnect: false})
+    if (error || !data) {
+      return <></>
+    }
+    const tweets: Array<Tweet>  = data.tweets
     return (
         <div className="">
             <Header
-                title={'emiru'}
+                title={'emiru - mainフィード'}
                 image={''}
                 url={''}
             />
-            <div className="lg:flex lg:items-center lg:justify-between bg-gray-800">
-                <div className="flex-1 min-w-0 py-2 px-2">
-                    <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:text-3xl sm:truncate">
-                        emiru
-                    </h2>
-                </div>
-            </div>
 
-
-            {data?.filter(tw => !tw.text.startsWith('RT')).map(tw => (
+            {tweets?.filter(tw => !tw.text.startsWith('RT')).map(tw => (
                 <div className="shadow bg-gray-100 my-4 ">
-                    <Images images={tw.images}></Images>
+                    <Images images={tw.images}/>
                     <div className="relative">
                         <img className="right-0 w-16 h-16 rounded-full mr-4 shadow-lg absolute -mt-8"
                              src={tw.author.icon} alt={tw.author.name}/>

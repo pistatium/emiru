@@ -1,6 +1,7 @@
 import Header from '../components/Header';
+import React from 'react'
 
-export default function Home() {
+const Home: React.FC = () => {
     return (
         <div className="">
             <Header
@@ -9,15 +10,7 @@ export default function Home() {
                 url={''}
             />
 
-
-            <div class="lg:flex lg:items-center lg:justify-between bg-gray-800">
-                <div class="flex-1 min-w-0 py-2 px-2">
-                    <h2 class="text-2xl font-bold leading-7 text-gray-100 sm:text-3xl sm:truncate">
-                        emiru
-                    </h2>
-                </div>
-            </div>
-            <div class="xl:container xl:mx-auto">
+            <div className="xl:container xl:mx-auto">
                 <div className=" flex flex-col sm:flex-row xl:my-24 bg-gray-400">
                     <div className="flex-auto flex w-full flex-col  bg-gray-100 text-gray-600">
                         <div className="pt-12 pb-24 px-12">
@@ -114,3 +107,5 @@ export default function Home() {
         </div>
     )
 }
+
+export default Home
