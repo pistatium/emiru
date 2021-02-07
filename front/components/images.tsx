@@ -22,8 +22,8 @@ const Images: React.FC<Props> = ({children, images}) => {
       )
     case 2:
       return (
-        <div className="flex flex-row flex-wrap -mx-2">
-          <div className="w-full md:w-1/2 h-64 md:h-auto mb-4 px-2">
+        <div className="flex flex-row flex-wrap -mx-2 h-96">
+          <div className="w-full md:w-1/2 h-96 md:h-auto mb-1 px-1">
             <a
               className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
               href="#"
@@ -33,7 +33,7 @@ const Images: React.FC<Props> = ({children, images}) => {
               image 1
             </a>
           </div>
-          <div className="w-full md:w-1/2 h-64 md:h-auto mb-4 px-2">
+          <div className="w-full md:w-1/2 h-64 md:h-auto mb-1">
             <a
               className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
               href="#"
@@ -48,7 +48,7 @@ const Images: React.FC<Props> = ({children, images}) => {
     case 3:
       return (
         <div className="flex flex-row flex-wrap -mx-2">
-          <div className="w-full md:w-1/2 h-64 md:h-auto mb-4 px-2">
+          <div className="w-full md:w-1/2 h-64 md:h-auto mb-1">
             <a
               className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
               href="#"
@@ -58,9 +58,9 @@ const Images: React.FC<Props> = ({children, images}) => {
               image 1
             </a>
           </div>
-          <div className="w-full md:w-1/2 mb-4 px-2">
+          <div className="w-full md:w-1/2 mb-1">
             <div className="flex flex-col sm:flex-row md:flex-col -mx-2">
-              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 mb-4 sm:mb-0 md:mb-4 px-2">
+              <div className="w-full sm:w-1/2 md:w-full h-48 mb-4 sm:mb-0">
                 <a
                   className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
                   href="#"
@@ -70,7 +70,7 @@ const Images: React.FC<Props> = ({children, images}) => {
                   image2
                 </a>
               </div>
-              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 px-2">
+              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 px-1">
                 <a
                   className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
                   href="#"
@@ -87,9 +87,9 @@ const Images: React.FC<Props> = ({children, images}) => {
     default:
       return (
         <div className="flex flex-row flex-wrap -mx-2">
-          <div className="w-full md:w-1/2 mb-4 px-2">
+          <div className="w-full md:w-1/2 mb-1">
             <div className="flex flex-col sm:flex-row md:flex-col -mx-2">
-              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 mb-4 sm:mb-0 md:mb-4 px-2">
+              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 mb-1">
                 <a
                   className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
                   href="#"
@@ -99,7 +99,7 @@ const Images: React.FC<Props> = ({children, images}) => {
                   image2
                 </a>
               </div>
-              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 px-2">
+              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 px-1">
                 <a
                   className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
                   href="#"
@@ -111,9 +111,9 @@ const Images: React.FC<Props> = ({children, images}) => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/2 mb-4 px-2">
+          <div className="w-full md:w-1/2 mb-4 px-1">
             <div className="flex flex-col sm:flex-row md:flex-col -mx-2">
-              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 mb-4 sm:mb-0 md:mb-4 px-2">
+              <div className="w-full sm:w-1/2 md:w-full h-48 xl:h-64 mb-1">
                 <a
                   className="block w-full h-full bg-grey-dark bg-no-repeat bg-center bg-cover"
                   href="#"
