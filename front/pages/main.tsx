@@ -6,8 +6,8 @@ import Footer from "../components/footer";
 import React from "react";
 import TweetList from "../components/tweet_list";
 
-//const fetcher = () => axios('/app/api/tweets').then(res => res.data)
-const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
+const fetcher = () => axios('/app/api/tweets').then(res => res.data)
+//const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
 
 
 export default function Main(props) {

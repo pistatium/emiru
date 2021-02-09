@@ -14,4 +14,5 @@ export interface Tweet {
   images: Array<TweetImage>
   author: TweetUser
   created_at: string
+  is_retweet: boolean
 }
