@@ -3,13 +3,13 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:prettier/recommended",
-        "prettier/@typescript-eslint"
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
     ],
     "plugins": [
         "@typescript-eslint",
-        "react"
+        "react",
+        "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "env": {
@@ -26,6 +26,17 @@
     "rules": {
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "prettier/prettier": [
+            "error", {
+                "printWidth": 160,
+                "tabWidth": 4,
+                "useTabs": false,
+                "semi": false,
+                "singleQuote": true,
+                "bracketSpacing": true,
+                "arrowParens": "avoid"
+            }
+        ]
     }
 }
