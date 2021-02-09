@@ -104,7 +104,8 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 				isRetweet = true
 			}
 			images := make([]*entities.Image, 0)
-			for _, media := range tweets[i].Entities.Media {
+			for j, _ := range tw.Entities.Media {
+				media := tw.Entities.Media[j]
 				images = append(images, &entities.Image{
 					Url: media.MediaURLHttps,
 				})
@@ -119,7 +120,7 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 				Text:      tw.FullText,
 				Author:    &entities.TweetUser{
 					Name:    tw.User.Name,
-					Icon:    tw.User.ProfileBackgroundImageURLHttps,
+					Icon:    tw.User.ProfileImageURLHttps,
 					Profile: tw.User.Description,
 				},
 				Images:    images,
