@@ -11,15 +11,15 @@ import (
 )
 
 type Server struct {
-	userStore repositories.UserStore
-	twitterClientKey string
+	userStore           repositories.UserStore
+	twitterClientKey    string
 	twitterClientSecret string
 }
 
 func NewServer(userStore repositories.UserStore, twitterClientKey string, twitterClientSecret string) *Server {
 	return &Server{
-		userStore: userStore,
-		twitterClientKey: twitterClientKey,
+		userStore:           userStore,
+		twitterClientKey:    twitterClientKey,
 		twitterClientSecret: twitterClientSecret,
 	}
 }
@@ -61,6 +61,7 @@ type GetCurrentUserResponse struct {
 	Name      string `json:"name"`
 	Thumbnail string `json:"thumbnail"`
 }
+
 func (s *Server) GetCurrentUser(ctx *gin.Context) {
 	user := ctx.MustGet(ContextUserKey).(*entities.User)
 	ctx.JSON(http.StatusOK, &GetCurrentUserResponse{
@@ -71,7 +72,7 @@ func (s *Server) GetCurrentUser(ctx *gin.Context) {
 }
 
 type GetTweetResponse struct {
-    Tweets []*entities.Tweet `json:"tweets"`
+	Tweets []*entities.Tweet `json:"tweets"`
 }
 
 func (s *Server) GetTweets(ctx *gin.Context) {
@@ -96,42 +97,53 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 	}
 	resTweets := make([]*entities.Tweet, 0)
 	for i, _ := range tweets {
-		if len(tweets[i].Entities.Media) > 0 {
-			isRetweet := false
-			tw := &tweets[i]
-			if tw.RetweetedStatus != nil {
-				tw = tw.RetweetedStatus
-				isRetweet = true
-			}
-			images := make([]*entities.Image, 0)
-			for j, _ := range tw.Entities.Media {
-				media := tw.Entities.Media[j]
-				images = append(images, &entities.Image{
-					Url: media.MediaURLHttps,
-				})
-			}
-			createdAt, err := tw.CreatedAtTime()
-			if err != nil {
-				continue
-			}
-			resTweets = append(resTweets, &entities.Tweet{
-				ID:        tw.IDStr,
-				URL:       fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
-				Text:      tw.FullText,
-				Author:    &entities.TweetUser{
-					Name:    tw.User.Name,
-					Icon:    tw.User.ProfileImageURLHttps,
-					Profile: tw.User.Description,
-				},
-				Images:    images,
-				CreatedAt: createdAt,
-				IsRetweet: isRetweet,
-			})
+		tweet := parseTweet(&tweets[i])
+		if tweet == nil || len(tweet.Images) == 0 {
+			continue
 		}
+
+		resTweets = append(resTweets, tweet)
 	}
 	ctx.JSON(http.StatusOK, GetTweetResponse{
 		Tweets: resTweets,
 	})
 
 	return
+}
+
+func parseTweet(tw *twitter.Tweet) *entities.Tweet {
+	status := entities.TweetStatus{}
+	if tw.RetweetedStatus != nil {
+		status.RetweetedBy = &entities.TweetUser{
+			Name:    tw.User.ScreenName,
+			Icon:    tw.User.ProfileImageURLHttps,
+			Profile: tw.User.Description,
+		}
+		tw = tw.RetweetedStatus
+	}
+	images := make([]*entities.Image, 0)
+	for j, _ := range tw.Entities.Media {
+		media := tw.Entities.Media[j]
+		images = append(images, &entities.Image{
+			Url: media.MediaURLHttps,
+		})
+	}
+	createdAt, err := tw.CreatedAtTime()
+	if err != nil {
+		return nil
+	}
+	status.IsFollowing = tw.User.Following
+	return &entities.Tweet{
+		ID:   tw.IDStr,
+		URL:  fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
+		Text: tw.FullText,
+		Author: &entities.TweetUser{
+			Name:    tw.User.Name,
+			Icon:    tw.User.ProfileImageURLHttps,
+			Profile: tw.User.Description,
+		},
+		Images:    images,
+		CreatedAt: createdAt,
+		Status:    &status,
+	}
 }

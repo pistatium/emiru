@@ -6,6 +6,11 @@ type Image struct {
 	Url string `json:"url"`
 }
 
+type TweetStatus struct {
+	RetweetedBy *TweetUser `json:"retweeted_by"`
+	IsFollowing bool `json:"is_following"`
+}
+
 type TweetUser struct {
 	Name string `json:"name"`
 	Icon string `json:"icon"`
@@ -19,5 +24,5 @@ type Tweet struct {
 	Author *TweetUser `json:"author"`
 	Images []*Image `json:"images"`
 	CreatedAt time.Time `json:"created_at"`
-	IsRetweet bool `json:"is_retweet"`
+	Status *TweetStatus `json:"status"`
 }
