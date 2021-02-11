@@ -8,6 +8,7 @@ import (
 	"github.com/pistatium/emiru/entities"
 	"github.com/pistatium/emiru/repositories"
 	"net/http"
+	"strconv"
 )
 
 type Server struct {
@@ -76,6 +77,8 @@ type GetTweetResponse struct {
 }
 
 func (s *Server) GetTweets(ctx *gin.Context) {
+	sinceID, _ := strconv.ParseInt(ctx.Query("since_id"), 10, 64)
+	maxID, _ := strconv.ParseInt(ctx.Query("max_id"), 10, 64)
 	user := ctx.MustGet(ContextUserKey).(*entities.User)
 	c := oauth1.NewConfig(s.twitterClientKey, s.twitterClientSecret)
 	t := oauth1.NewToken(user.TwitterAccessKey, user.TwitterAccessSecret)
@@ -84,7 +87,8 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 	twClient := twitter.NewClient(httpClient)
 	tweets, _, err := twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
 		Count:              200,
-		SinceID:            0,
+		SinceID:            sinceID,
+		MaxID: maxID,
 		ExcludeReplies:     twitter.Bool(true),
 		ContributorDetails: nil,
 		IncludeEntities:    twitter.Bool(true),
