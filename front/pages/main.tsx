@@ -6,28 +6,29 @@ import Footer from '../components/footer'
 import React from 'react'
 import TweetList from '../components/tweet_list'
 
-const fetcher = () => axios('/app/api/tweets').then(res => res.data)
-//const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
+//const fetcher = () => axios('/app/api/tweets').then(res => res.data)
+const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
 
 export default function Main(props) {
     const { data, error } = useSWR('/api/tweets', fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
     if (error || !data) {
         return <></>
     }
+
     const tweets: Array<Tweet> = data.tweets
     return (
         <div className="bg-gray-100">
             <Header title={'emiru - mainフィード'} image={''} url={''} />
 
-            <div className="xl:container xl:mx-auto ">
-                <div className="flex flex-col md:flex-row xl:my-24">
-                    <div className="flex-auto flex w-full flex-col">
+            <div className="lg:container xl:mx-auto xl:px-24">
+                <div className="flex md:flex-row">
+                    <div className="flex-auto flex flex-col xl:px-6">
                         <TweetList tweets={tweets} />
                     </div>
 
-                    <div className="flex w-auto hidden lg:block sm:w-1/2 md:w-1/2 spx-auto">
-                        <div className="flex flex-col bg-white max-w-sm px-6 py-4 mx-auto rounded-lg shadow-md">
-                            <div className="px-8">
+                    <div className="flex w-auto hidden lg:block lg:w-2/3 spx-auto">
+                        <div className="flex flex-col bg-white px-6 py-4 mx-auto rounded-lg shadow-md">
+                            <div className="">
                                 <div>設定</div>
                                 <ul className="-mx-4">
                                     <li className="flex items-center">

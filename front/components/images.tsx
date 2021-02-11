@@ -1,17 +1,21 @@
 import * as React from 'react'
-
+import Lightbox from 'react-image-lightbox'
+import { TweetImage } from '../types/tweets'
+import 'react-image-lightbox/style.css'
 interface Props {
-    images: Array<any>
+    images: Array<TweetImage>
 }
 
-const Images: React.FC<Props> = ({ children, images }) => {
+type CallbackFunction = (number) => void
+
+const getImageView = (images: Array<TweetImage>, onClickImage: CallbackFunction): JSX.Element => {
     switch (images.length) {
         case 1:
             return (
                 <div className="flex flex-row flex-wrap h-96">
                     <a
                         className="block w-full h-full bg-grey-dark bg-no-repeat bg-top bg-cover"
-                        href="#"
+                        onClick={() => onClickImage(0)}
                         title="Link"
                         style={{ backgroundImage: 'url(' + images[0].url + ')' }}
                     />
@@ -117,6 +121,31 @@ const Images: React.FC<Props> = ({ children, images }) => {
                 </div>
             )
     }
+}
+
+const Images: React.FC<Props> = ({ children, images }) => {
+    const [isOpen, setOpen] = React.useState<boolean>(false)
+    const [photoIndex, setPhotoIndex] = React.useState<number>(0)
+    const onClickImage = (index: number) => {
+        setOpen(true)
+        setPhotoIndex(index)
+    }
+    return (
+        <>
+            {getImageView(images, onClickImage)}
+            {isOpen && (
+                <Lightbox
+                    mainSrc={images[photoIndex].url}
+                    nextSrc={images[(photoIndex + 1) % images.length].url}
+                    prevSrc={images[(photoIndex + images.length - 1) % images.length].url}
+                    onCloseRequest={() => setOpen(false)}
+                    onMovePrevRequest={() => setPhotoIndex((photoIndex + images.length - 1) % images.length)}
+                    onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % images.length)}
+                    imagePadding={3}
+                />
+            )}
+        </>
+    )
 }
 
 export default Images
