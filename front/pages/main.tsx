@@ -6,9 +6,14 @@ import Footer from '../components/footer'
 import React from 'react'
 import TweetList from '../components/tweet_list'
 
-const fetcher = () => axios('/app/api/tweets').then(res => res.data)
-// const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
+//const fetcher = () => axios('/app/api/tweets').then(res => res.data)
+const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
 //
+
+const onClickLoadModre = (since_id: string): Promise<any> => {
+    return axios('/dummy_data/tweets.json').then(res => res.data)
+}
+
 export default function Main(props) {
     const { data, error } = useSWR('/api/tweets', fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
     if (error || !data) {
@@ -24,6 +29,13 @@ export default function Main(props) {
                 <div className="flex md:flex-row">
                     <div className="flex-auto flex flex-col xl:px-6">
                         <TweetList tweets={tweets} />
+
+                        <button
+                            type="submit"
+                            className="group relative w-full flex justify-center my-2 py-4 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            もっとみる
+                        </button>
                     </div>
 
                     <div className="flex w-auto hidden lg:block lg:w-2/3 spx-auto">
