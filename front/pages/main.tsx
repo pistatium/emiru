@@ -1,26 +1,31 @@
 import Header from '../components/header'
 import axios from 'axios'
-import useSWR from 'swr'
 import { Tweet } from '../types/tweets'
 import Footer from '../components/footer'
 import React from 'react'
 import TweetList from '../components/tweet_list'
+import { useSWRInfinite } from 'swr'
 
 //const fetcher = () => axios('/app/api/tweets').then(res => res.data)
-const fetcher = () => axios('/dummy_data/tweets.json').then(res => res.data)
-//
+const fetcher = url => axios(url).then(res => res.data)
 
-const onClickLoadModre = (since_id: string): Promise<any> => {
-    return axios('/dummy_data/tweets.json').then(res => res.data)
+const getKey = (pageIndex, previousPageData): string => {
+    //const path = '/app/api/tweets'
+    const path = '/dummy_data/tweets.json'
+    if (previousPageData && !previousPageData.tweets) return null
+    if (pageIndex === 0) return path
+    const lastId = previousPageData.tweets.slice(-1)[0].id
+    return `${path}?max_id=${lastId}`
 }
 
 export default function Main(props) {
-    const { data, error } = useSWR('/api/tweets', fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
-    if (error || !data) {
+    const { data, size, setSize } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
+    console.log(data)
+    if (!data) {
         return <></>
     }
 
-    const tweets: Array<Tweet> = data.tweets
+    const tweets: Array<Tweet> = data.flatMap(data => data.tweets)
     return (
         <div className="bg-gray-100">
             <Header title={'emiru - mainフィード'} image={''} url={''} />
@@ -31,7 +36,7 @@ export default function Main(props) {
                         <TweetList tweets={tweets} />
 
                         <button
-                            type="submit"
+                            onClick={() => setSize(size + 1)}
                             className="group relative w-full flex justify-center my-2 py-4 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                         >
                             もっとみる
