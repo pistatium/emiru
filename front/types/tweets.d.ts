@@ -21,3 +21,7 @@ export interface Tweet {
     created_at: string
     status: TweetStatus
 }
+
+export interface GetTweetResponse {
+    tweets: Array<Tweet>
+}

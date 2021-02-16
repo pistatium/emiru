@@ -1,17 +1,16 @@
 import Header from '../components/header'
 import axios from 'axios'
-import { Tweet } from '../types/tweets'
+import { GetTweetResponse, Tweet } from '../types/tweets'
 import Footer from '../components/footer'
 import React from 'react'
 import TweetList from '../components/tweet_list'
 import { useSWRInfinite } from 'swr'
 
-//const fetcher = () => axios('/app/api/tweets').then(res => res.data)
-const fetcher = url => axios(url).then(res => res.data)
+const fetcher = url => axios.get<GetTweetResponse>(url).then(res => res.data)
 
-const getKey = (pageIndex, previousPageData): string => {
-    //const path = '/app/api/tweets'
-    const path = '/dummy_data/tweets.json'
+const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string => {
+    const path = '/app/api/tweets'
+    //const path = '/dummy_data/tweets.jsona'
     if (previousPageData && !previousPageData.tweets) return null
     if (pageIndex === 0) return path
     const lastId = previousPageData.tweets.slice(-1)[0].id
@@ -19,12 +18,20 @@ const getKey = (pageIndex, previousPageData): string => {
 }
 
 export default function Main(props) {
-    const { data, size, setSize } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
-    console.log(data)
+    const { data, error, size, setSize } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
+    console.dir(error)
+    if (error) {
+        if (error.response !== undefined) {
+            console.dir(error.response.data.error)
+            if (error.response.data.error.includes('Rate limit exceeded')) {
+                return <span>API制限</span>
+            }
+        }
+        return <span>通信エラー</span>
+    }
     if (!data) {
         return <></>
     }
-
     const tweets: Array<Tweet> = data.flatMap(data => data.tweets)
     return (
         <div className="bg-gray-100">

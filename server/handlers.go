@@ -79,6 +79,10 @@ type GetTweetResponse struct {
 func (s *Server) GetTweets(ctx *gin.Context) {
 	sinceID, _ := strconv.ParseInt(ctx.Query("since_id"), 10, 64)
 	maxID, _ := strconv.ParseInt(ctx.Query("max_id"), 10, 64)
+	if maxID != 0 {
+		maxID -= 1
+		println(maxID)
+	}
 	user := ctx.MustGet(ContextUserKey).(*entities.User)
 	c := oauth1.NewConfig(s.twitterClientKey, s.twitterClientSecret)
 	t := oauth1.NewToken(user.TwitterAccessKey, user.TwitterAccessSecret)
