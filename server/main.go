@@ -40,17 +40,29 @@ func main() {
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
-	g.Use(server.LoginMiddleware())
-	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, nil)))
+	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, onFailToLogin())))
 	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
-	g.GET("/app/api/users/me", server.GetCurrentUser)
-	g.GET("/app/api/tweets", server.GetTweets)
+
+	api := g.Group("/app/api")
+	api.Use(server.LoginMiddleware())
+	{
+		api.GET("users/me", server.GetCurrentUser)
+		api.GET("tweets", server.GetTweets)
+	}
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
+func onFailToLogin() http.Handler {
+	fn := func(w http.ResponseWriter, req *http.Request) {
+		fmt.Println("error")
+		http.SetCookie(w, &http.Cookie{})
+		http.Redirect(w, req, "/app/login", http.StatusFound)
+	}
+	return http.HandlerFunc(fn)
+}
 func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()

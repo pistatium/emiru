@@ -121,6 +121,7 @@ func (s *Server) GetTweets(ctx *gin.Context) {
 
 func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	status := entities.TweetStatus{}
+	statusID := tw.IDStr  // RT 展開前のIDをのこす
 	if tw.RetweetedStatus != nil {
 		status.RetweetedBy = &entities.TweetUser{
 			Name:    tw.User.ScreenName,
@@ -142,7 +143,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	}
 	status.IsFollowing = tw.User.Following
 	return &entities.Tweet{
-		ID:   tw.IDStr,
+		ID:   statusID,
 		URL:  fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
 		Text: tw.FullText,
 		Author: &entities.TweetUser{
