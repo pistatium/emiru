@@ -2,17 +2,15 @@ package main
 
 import (
 	"fmt"
-	oauth1Login "github.com/dghubble/gologin/v2/oauth1"
-	"github.com/dghubble/gologin/v2/twitter"
 	"github.com/dghubble/oauth1"
 	twitterOAuth1 "github.com/dghubble/oauth1/twitter"
 	"github.com/gin-gonic/gin"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/pistatium/emiru/handlers"
 	"github.com/pistatium/emiru/impl/datastore"
 	"github.com/pistatium/emiru/repositories"
 	"log"
 	"math/rand"
-	"net/http"
 	"time"
 )
 
@@ -36,18 +34,25 @@ func main() {
 	if !env.IsDebug {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	server := NewServer(userStore, config.ConsumerKey, config.ConsumerSecret)
+	server := repositories.NewServer(userStore, config.ConsumerKey, config.ConsumerSecret)
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
-	g.GET("/app/login",  gin.WrapH(twitter.LoginHandler(config, onFailToLogin())))
-	g.GET("/app/callback", gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(userStore, env.IsDebug), nil)))
+	g.GET("/app/login", handlers.Login(config, server))
+	g.GET("/app/callback", handlers.LoginCallback(config, server, env.IsDebug))
 
 	api := g.Group("/app/api")
-	api.Use(server.LoginMiddleware())
+	api.Use(handlers.LoginMiddleware(server))
 	{
-		api.GET("users/me", server.GetCurrentUser)
-		api.GET("tweets", server.GetTweets)
+		api.GET("users/me", handlers.GetCurrentUser(server))
+
+		api.GET("tweets", handlers.GetTweets(server))
+
+		api.PUT("favorite", handlers.SetFavorite(server))
+		api.DELETE("favorite", handlers.UnsetFavorite(server))
+
+		api.PUT("retweet", handlers.SetRetweet(server))
+		api.DELETE("retweet", handlers.UnSetRetweet(server))
 	}
 	err = g.Run(fmt.Sprintf("0.0.0.0:%s", env.Port))
 	if err != nil {
@@ -55,38 +60,3 @@ func main() {
 	}
 }
 
-func onFailToLogin() http.Handler {
-	fn := func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("error")
-		http.SetCookie(w, &http.Cookie{})
-		http.Redirect(w, req, "/app/login", http.StatusFound)
-	}
-	return http.HandlerFunc(fn)
-}
-func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http.Handler {
-	fn := func(w http.ResponseWriter, req *http.Request) {
-		ctx := req.Context()
-		accessToken, accessSecret, err := oauth1Login.AccessTokenFromContext(ctx)
-		twitterUser, err := twitter.UserFromContext(ctx)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		userID := repositories.IdFromTwitter(twitterUser.ID)
-
-		user := repositories.NewUser(userID, twitterUser.ScreenName, accessToken, accessSecret)
-		err = userStore.Save(ctx, user)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		ti := &TokenInfo{
-			UserID:   user.ID,
-			Secret:   user.Secret,
-		}
-		cookie := generateSessionCookie(ti, !isDebug)
-		http.SetCookie(w, cookie)
-		http.Redirect(w, req, "/main", http.StatusFound)
-	}
-	return http.HandlerFunc(fn)
-}

@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ func NewFromToken(token string) (*TokenInfo, error) {
 	}, nil
 }
 
-func generateSessionCookie(t *TokenInfo, secure bool) *http.Cookie {
+func GenerateSessionCookie(t *TokenInfo, secure bool) *http.Cookie {
 	return &http.Cookie{
 		Name: SessionCookieName,
 		Value: t.Serialize(),

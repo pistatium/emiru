@@ -19,6 +19,7 @@ type TweetUser struct {
 
 type Tweet struct {
 	ID string `json:"id"`
+	TargetID string `json:"target_id"` // 通常IDと同値。RT の場合、RT先のIDになる。
 	URL string `json:"url"`
 	Text string `json:"text"`
 	Author *TweetUser `json:"author"`
