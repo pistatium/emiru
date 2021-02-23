@@ -2,12 +2,18 @@ import React from 'react'
 import { Tweet } from '../types/tweets'
 import Images from './images'
 import dayjs from 'dayjs'
+import axios from 'axios'
 
 interface Props {
     tweets: Array<Tweet>
 }
 
+const setFavorite = targetID => axios.put(`/app/api/favorite`, { target_id: targetID }).then(res => res.data)
+
 const TweetList: React.FC<Props> = ({ children, tweets }) => {
+    const onClickFavorite = (targetID: string) => {
+        setFavorite(targetID)
+    }
     return (
         <>
             {tweets
@@ -28,7 +34,12 @@ const TweetList: React.FC<Props> = ({ children, tweets }) => {
                                 <p className="text-leading">{dayjs(tw.created_at).format('YYYY-MM-DD HH:mm:ss')}</p>
                             </a>
                             <img src="/images/retweet.svg" alt="retweet" className="h-8 mx-6 px-2 py-0.5 flex-1 tweet_color rounded" />
-                            <img src="/images/favourite.svg" alt="favorite" className="h-8 px-2 py-0.5 flex-1 tweet_color rounded" />
+                            <img
+                                src="/images/favourite.svg"
+                                onClick={() => onClickFavorite(tw.target_id)}
+                                alt="favorite"
+                                className="h-8 px-2 py-0.5 flex-1 tweet_color rounded"
+                            />
                         </div>
                     </div>
                 ))}

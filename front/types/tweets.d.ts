@@ -14,6 +14,7 @@ export interface TweetUser {
 
 export interface Tweet {
     id: string
+    target_id: string
     url: string
     text: string
     images: Array<TweetImage>

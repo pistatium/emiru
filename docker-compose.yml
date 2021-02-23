@@ -44,9 +44,3 @@ services:
       - datastore_volume:/data
 volumes:
   datastore_volume:
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.101.0.0/16
