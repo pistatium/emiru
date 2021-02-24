@@ -23,3 +23,7 @@ a {
   filter: invert(50%) sepia(89%) saturate(2023%) hue-rotate(161deg) brightness(95%) contrast(109%);
 }
 
+.normal {
+  filter: invert(97%) sepia(2%) saturate(1%) hue-rotate(146deg) brightness(106%) contrast(96%);
+}
+
