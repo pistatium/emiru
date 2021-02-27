@@ -15,77 +15,70 @@ export default function Main(props) {
                         <Timeline />
                     </div>
 
-                    <div className="flex w-auto hidden lg:block lg:w-2/3 spx-auto">
-                        <div className="flex flex-col bg-white px-6 py-4 mx-auto rounded-lg shadow-md">
-                            <div className="">
-                                <div>設定</div>
-                                <ul className="-mx-4">
-                                    <li className="flex items-center">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                                            alt="avatar"
-                                            className="w-10 h-10 object-cover rounded-full mx-4"
-                                        />
-                                        <p>
-                                            <a href="#" className="text-gray-700 font-bold mx-1 hover:underline">
-                                                Alex John
+                    <div className="flex-none hidden lg:block lg:w-1/2 spx-auto">
+                        <div className="fixed hidden lg:block px-6" style={{ width: 480 }}>
+                            <div className="text-2xl my-4">設定</div>
+                            <div className="bg-white px-6 py-4 mx-auto rounded-lg shadow-md">
+                                <div className="w-full">
+                                    <ul className="-mx-4">
+                                        <li className="flex items-center">
+                                            <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input
+                                                    type="checkbox"
+                                                    name="toggle_rt"
+                                                    id="toggle"
+                                                    className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                                />
+                                                <label
+                                                    htmlFor="toggle_rt"
+                                                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                                                />
+                                            </div>
+                                            <label htmlFor="toggle" className="text-lg text-gray-700">
+                                                フォロー外のRTを表示しない
+                                            </label>
+                                        </li>
+                                        <li className="flex items-center mt-6">
+                                            <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input
+                                                    type="checkbox"
+                                                    name="toggle_following"
+                                                    id="toggle"
+                                                    className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                                />
+                                                <label
+                                                    htmlFor="toggle_following"
+                                                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                                                />
+                                            </div>
+                                            <label htmlFor="toggle" className="text-lg text-gray-700">
+                                                相互フォローのみ表示
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="text-2xl my-4">その他</div>
+                            <div className="bg-white px-6 mx-auto rounded-lg shadow-md">
+                                <div className="w-full">
+                                    <ul className="-mx-4">
+                                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
+                                            <a className="text-lg text-gray-700" href="#" rel="noreferrer" target="_blank">
+                                                使い方
                                             </a>
-                                            <span className="text-gray-700 text-sm font-light">Created 23 Posts</span>
-                                        </p>
-                                    </li>
-                                    <li className="flex items-center mt-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=333&amp;q=80"
-                                            alt="avatar"
-                                            className="w-10 h-10 object-cover rounded-full mx-4"
-                                        />
-                                        <p>
-                                            <a href="#" className="text-gray-700 font-bold mx-1 hover:underline">
-                                                Jane Doe
+                                        </li>
+                                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
+                                            <a
+                                                className="text-lg text-gray-700"
+                                                href="https://github.com/pistatium/emiru/discussions"
+                                                rel="noreferrer"
+                                                target="_blank"
+                                            >
+                                                お問い合わせ
                                             </a>
-                                            <span className="text-gray-700 text-sm font-light">Created 52 Posts</span>
-                                        </p>
-                                    </li>
-                                    <li className="flex items-center mt-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1531251445707-1f000e1e87d0?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=281&amp;q=80"
-                                            alt="avatar"
-                                            className="w-10 h-10 object-cover rounded-full mx-4"
-                                        />
-                                        <p>
-                                            <a href="#" className="text-gray-700 font-bold mx-1 hover:underline">
-                                                Lisa Way
-                                            </a>
-                                            <span className="text-gray-700 text-sm font-light">Created 73 Posts</span>
-                                        </p>
-                                    </li>
-                                    <li className="flex items-center mt-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1500757810556-5d600d9b737d?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=735&amp;q=80"
-                                            alt="avatar"
-                                            className="w-10 h-10 object-cover rounded-full mx-4"
-                                        />
-                                        <p>
-                                            <a href="#" className="text-gray-700 font-bold mx-1 hover:underline">
-                                                Steve Matt
-                                            </a>
-                                            <span className="text-gray-700 text-sm font-light">Created 245 Posts</span>
-                                        </p>
-                                    </li>
-                                    <li className="flex items-center mt-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=373&amp;q=80"
-                                            alt="avatar"
-                                            className="w-10 h-10 object-cover rounded-full mx-4"
-                                        />
-                                        <p>
-                                            <a href="#" className="text-gray-700 font-bold mx-1 hover:underline">
-                                                Khatab Wedaa
-                                            </a>
-                                            <span className="text-gray-700 text-sm font-light">Created 332 Posts</span>
-                                        </p>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

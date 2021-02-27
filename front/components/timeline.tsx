@@ -7,8 +7,8 @@ import TweetList from './tweet_list'
 const fetcher = url => axios.get<GetTweetResponse>(url).then(res => res.data)
 
 const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string => {
-    const path = '/app/api/tweets'
-    //const path = '/dummy_data/tweets.jsona'
+    //const path = '/app/api/tweets'
+    const path = '/dummy_data/tweets.json'
     if (pageIndex === 0) return path
     if (!previousPageData || !previousPageData.tweets) return null
     if (previousPageData.tweets.length == 0) return null

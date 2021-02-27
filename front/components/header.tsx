@@ -25,11 +25,12 @@ const Header: React.FC<Props> = ({ children, title, image, url }) => (
             <link rel="shortcut icon" href={'https://t-cr.jp/favicon.ico'} />
             <link rel="apple-touch-icon" href={'https://t-cr.jp/logo.png'} />
         </Head>
-        <div className="lg:flex lg:items-center lg:justify-between bg-gray-800">
+        <div className="lg:flex lg:items-center lg:justify-between bg-gray-800 fixed w-full h-12">
             <div className="flex-1 min-w-0 py-2 px-2">
                 <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:text-3xl sm:truncate">emiru</h2>
             </div>
         </div>
+        <div className="h-12" />
     </>
 )
 
