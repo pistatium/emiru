@@ -67,8 +67,7 @@ export default function Main(props) {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="text-2xl my-4">その他</div>
-                            <div className="bg-white px-6 mx-auto rounded-lg shadow-md">
+                            <div className="bg-white px-6 my-4 mx-auto rounded-lg shadow-md">
                                 <div className="w-full">
                                     <ul className="-mx-4">
                                         <li className="p-4 hover:bg-gray-50 cursor-pointer">
@@ -84,6 +83,23 @@ export default function Main(props) {
                                                 target="_blank"
                                             >
                                                 お問い合わせ
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="bg-white px-6 my-4 mx-auto rounded-lg shadow-md">
+                                <div className="w-full">
+                                    <ul className="-mx-4">
+                                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
+                                            <a
+                                                className="text-lg text-gray-700"
+                                                onClick={() => {
+                                                    document.cookie = 'value=; max-age=60'
+                                                    location.href = '/'
+                                                }}
+                                            >
+                                                ログアウト
                                             </a>
                                         </li>
                                     </ul>
