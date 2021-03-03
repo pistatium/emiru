@@ -5,6 +5,7 @@ export interface TweetImage {
 export interface TweetStatus {
     retweeted_by: TweetUser
     is_following: boolean
+    is_followed: boolean
 }
 
 export interface TweetUser {
@@ -21,6 +22,7 @@ export interface Tweet {
     author: TweetUser
     created_at: string
     status: TweetStatus
+    is_sensitive: boolean
 }
 
 export interface GetTweetResponse {

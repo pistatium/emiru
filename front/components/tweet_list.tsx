@@ -15,11 +15,9 @@ const TweetList: React.FC<Props> = ({ children, tweets }) => {
     }
     return (
         <>
-            {tweets
-                ?.filter(tw => tw.status.is_following)
-                .map(tw => (
-                    <TweetCard key={tw.id} tweet={tw} />
-                ))}
+            {tweets.map(tw => (
+                <TweetCard key={tw.id} tweet={tw} />
+            ))}
         </>
     )
 }

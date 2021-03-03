@@ -42,6 +42,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		return nil
 	}
 	status.IsFollowing = tw.User.Following
+
 	return &entities.Tweet{
 		ID:       statusID,
 		TargetID: tw.IDStr,
@@ -55,5 +56,6 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		Images:    images,
 		CreatedAt: createdAt,
 		Status:    &status,
+		IsSensitive: tw.PossiblySensitive,
 	}
 }

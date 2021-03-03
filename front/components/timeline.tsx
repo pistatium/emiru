@@ -4,11 +4,16 @@ import { GetTweetResponse, Tweet } from '../types/tweets'
 import { useSWRInfinite } from 'swr'
 import TweetList from './tweet_list'
 
+interface Props {
+    onlyFollowersRT: boolean
+    filterSensitive: boolean
+}
+
 const fetcher = url => axios.get<GetTweetResponse>(url).then(res => res.data)
 
 const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string => {
-    //const path = '/app/api/tweets'
-    const path = '/dummy_data/tweets.json'
+    const path = '/app/api/tweets'
+    // const path = '/dummy_data/tweets.json'
     if (pageIndex === 0) return path
     if (!previousPageData || !previousPageData.tweets) return null
     if (previousPageData.tweets.length == 0) return null
@@ -16,9 +21,18 @@ const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string =
     return `${path}?max_id=${lastId}`
 }
 
-const Timeline: React.FC = ({ children }) => {
+const filterTweet = (tweets: Array<Tweet>, onlyFollowersRT: boolean, filterSensitive: boolean): Array<Tweet> => {
+    if (onlyFollowersRT) {
+        tweets = tweets.filter(t => t.status.is_following)
+    }
+    if (filterSensitive) {
+        tweets = tweets.filter(t => !t.is_sensitive)
+    }
+    return tweets
+}
+
+const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive }) => {
     const { data, error, size, setSize } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
-    console.log('data', data, 'error', error)
     const responses = data
     let errorMsg = ''
     if (error) {
@@ -38,10 +52,11 @@ const Timeline: React.FC = ({ children }) => {
     }
 
     const tweets: Array<Tweet> = responses ? responses.flatMap(resp => resp.tweets) : []
+    const filteredTweets = filterTweet(tweets, onlyFollowersRT, filterSensitive)
 
     return (
         <>
-            <TweetList tweets={tweets} />
+            <TweetList tweets={filteredTweets} />
             {errorMsg != '' ? (
                 <div className="my-6 font-medium py-4 px-2 bg-white rounded-md text-red-700 bg-red-100 border border-red-300">{errorMsg}</div>
             ) : null}
