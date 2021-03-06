@@ -7,4 +7,5 @@ type Env struct {
 	AppURL string `required:"true" envconfig:"APP_URL"`
 	DatastoreProjectID string `required:"true" envconfig:"DATASTORE_PROJECT_ID"`
 	IsDebug bool `default:"true" envconfig:"IS_DEBUG"`
+	StaticDir string `envconfig:"STATIC_DIR"`
 }

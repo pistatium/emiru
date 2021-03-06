@@ -34,10 +34,17 @@ func main() {
 	if !env.IsDebug {
 		gin.SetMode(gin.ReleaseMode)
 	}
+
 	server := repositories.NewServer(userStore, config.ConsumerKey, config.ConsumerSecret)
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
+	if env.StaticDir != "" {
+		g.Static("/_next", fmt.Sprintf("%s/_next", env.StaticDir))
+		g.Static("/images", fmt.Sprintf("%s/images", env.StaticDir))
+		g.StaticFile("/main", fmt.Sprintf("%s/main.html", env.StaticDir))
+		g.StaticFile("/main", fmt.Sprintf("%s/main.html", env.StaticDir))
+	}
 	g.GET("/app/login", handlers.Login(config, server))
 	g.GET("/app/callback", handlers.LoginCallback(config, server, env.IsDebug))
 

@@ -28,4 +28,5 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 EXPOSE 8080
 USER emiru
+ENV STATIC_DIR=/app/statics
 ENTRYPOINT ["/go/bin/app"]
