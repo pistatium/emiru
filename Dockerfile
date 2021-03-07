@@ -4,11 +4,12 @@ WORKDIR /app
 COPY front/package.json front/package-lock.json ./
 RUN npm ci
 
+
 FROM node:alpine AS front_builder
 WORKDIR /app
 COPY front .
 COPY --from=deps /app/node_modules ./node_modules
-RUN npm build & npm export && ls -al
+RUN npm run build & npm run export
 
 
 FROM golang:1.13 as builder
@@ -19,6 +20,7 @@ COPY server/go.mod server/go.sum ./
 RUN go mod download
 COPY ./server .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/app
+
 
 FROM scratch
 COPY --from=front_builder /app/out /app/statics

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	oauth1Login "github.com/dghubble/gologin/v2/oauth1"
 	"github.com/dghubble/gologin/v2/twitter"
 	"github.com/dghubble/oauth1"
@@ -11,21 +10,21 @@ import (
 )
 
 func Login(config *oauth1.Config, s *repositories.Server) func(ctx *gin.Context) {
-	return gin.WrapH(twitter.LoginHandler(config, onFailToLogin()))
+	return gin.WrapH(twitter.LoginHandler(config, nil))
 }
 
 func LoginCallback(config *oauth1.Config, s *repositories.Server, isDebug bool) func(ctx *gin.Context) {
 	return gin.WrapH(twitter.CallbackHandler(config, onCompleteTwitterLogin(s.UserStore, isDebug), nil))
 }
 
-func onFailToLogin() http.Handler {
-	fn := func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("error")
-		http.SetCookie(w, &http.Cookie{})
-		http.Redirect(w, req, "/app/login", http.StatusFound)
-	}
-	return http.HandlerFunc(fn)
-}
+//func onFailToLogin() http.Handler {
+//	fn := func(w http.ResponseWriter, req *http.Request) {
+//		fmt.Println("error")
+//		http.SetCookie(w, &http.Cookie{})
+//		http.Redirect(w, req, "/app/login", http.StatusFound)
+//	}
+//	return http.HandlerFunc(fn)
+//}
 
 func onCompleteTwitterLogin(userStore repositories.UserStore, isDebug bool) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
