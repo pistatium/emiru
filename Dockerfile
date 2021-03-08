@@ -9,7 +9,7 @@ FROM node:alpine AS front_builder
 WORKDIR /app
 COPY front .
 COPY --from=deps /app/node_modules ./node_modules
-RUN npm run build & npm run export
+RUN npm run export
 
 
 FROM golang:1.13 as builder
