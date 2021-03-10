@@ -42,6 +42,8 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		return nil
 	}
 	status.IsFollowing = tw.User.Following
+	status.IsSetFavorite = tw.Favorited
+	status.IsSetRetweeted = tw.Retweeted
 
 	return &entities.Tweet{
 		ID:       statusID,

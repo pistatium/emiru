@@ -40,6 +40,8 @@ const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive 
             console.dir(error.response.data.error)
             if (error.response.data.error.includes('Rate limit exceeded')) {
                 errorMsg = 'エラー: Twitter の API 制限がかかりました。15分後にお試しください。'
+            } else if (error.response.data.error.includes('unauthorized')) {
+                location.href = '/'
             } else {
                 errorMsg = `エラー: エラーが発生しました。時間をおいてリトライしてください。${error.response.data.error}`
             }

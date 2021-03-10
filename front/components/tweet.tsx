@@ -12,8 +12,8 @@ const setFavorite = targetID => axios.put(`/app/api/favorite`, { target_id: targ
 const setRetweet = targetID => axios.put(`/app/api/retweet`, { target_id: targetID }).then(res => res.data)
 
 const TweetCard: React.FC<Props> = ({ children, tweet }) => {
-    const [isFavorite, setIsFavorite] = React.useState(false)
-    const [isRetweeted, setIsRetweeted] = React.useState(false)
+    const [isFavorite, setIsFavorite] = React.useState(tweet.status.is_set_favorite)
+    const [isRetweeted, setIsRetweeted] = React.useState(tweet.status.is_set_retweeted)
     const onClickFavorite = () => {
         setIsFavorite(true)
         setFavorite(tweet.target_id)
