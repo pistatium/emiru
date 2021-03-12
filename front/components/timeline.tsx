@@ -12,8 +12,8 @@ interface Props {
 const fetcher = url => axios.get<GetTweetResponse>(url).then(res => res.data)
 
 const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string => {
-    const path = '/app/api/tweets'
-    // const path = '/dummy_data/tweets.json'
+    //const path = '/app/api/tweets'
+    const path = '/dummy_data/tweets.json'
     if (pageIndex === 0) return path
     if (!previousPageData || !previousPageData.tweets) return null
     if (previousPageData.tweets.length == 0) return null
@@ -37,7 +37,6 @@ const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive 
     let errorMsg = ''
     if (error) {
         if (error.response !== undefined && error.response.data.error) {
-            console.dir(error.response.data.error)
             if (error.response.data.error.includes('Rate limit exceeded')) {
                 errorMsg = 'エラー: Twitter の API 制限がかかりました。15分後にお試しください。'
             } else if (error.response.data.error.includes('unauthorized')) {
