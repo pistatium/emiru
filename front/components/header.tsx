@@ -35,9 +35,16 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu }) => {
                 <div className="flex-1 min-w-0 py-2">
                     <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:truncate">emiru (β)</h2>
                 </div>
+                <button className="md:hidden text-white font-bold" onClick={() => setShowMenuDialog(!showMenuDialog)}>
+                    設定
+                </button>
             </div>
             <div className="h-12" />
-            {showMenuDialog ? <div className="sm:hidden fixed bg-white w-full">{menu}</div> : null}
+            {showMenuDialog ? (
+                <div className="h-screen fixed z-50">
+                    <div className="md:hidden fixed bg-gray-100 w-full p-4 h-screen">{menu}</div>
+                </div>
+            ) : null}
         </>
     )
 }

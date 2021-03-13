@@ -11,13 +11,13 @@ const Home: React.FC = () => {
                 <div className=" flex flex-col sm:flex-row xl:my-12 bg-gray-400">
                     <div className="flex-auto flex w-full flex-col  bg-gray-100 text-gray-600">
                         <div className="pt-6 pb-8 px-4 md:px-12">
-                            <p className="w-full items-start">
+                            <div className="w-full items-start">
                                 <div className="flex flex-col max-w-sm text-5xl leading-tight sm:leading-snug font-black break-words">
                                     <span className="text-blue-500">絵師のための</span>
                                     <span>タイムライン</span>
                                     <span>閲覧アプリ</span>
                                 </div>
-                            </p>
+                            </div>
                             <p className="leading text-sm mt-4 mb-4 break-words text-gray-600">
                                 <strong>emiru</strong> (エミル)は絵師さん向けの Twitter 表示アプリケーションです。
                                 効率よくイラスト付きのツイートを巡回することを目的につくられました。 ベータ版は無料でお使いいただけます。
