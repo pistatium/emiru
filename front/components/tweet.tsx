@@ -37,18 +37,12 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                 <a href={tweet.url} target="_blank" rel="noopener" className="align-text-bottom flex-1 text-blue-400 hover:text-blue-400">
                     <p className="text-leading">{dayjs(tweet.created_at).format('YYYY-MM-DD HH:mm:ss')}</p>
                 </a>
-                <img
-                    src="/images/retweet.svg"
-                    alt="retweet"
-                    onClick={onClickRetweet}
-                    className={`h-8 mx-6 px-2 py-0.5 flex-1 cursor-pointer rounded ${isRetweeted ? 'tweet_color' : 'normal'}`}
-                />
-                <img
-                    src="/images/favourite.svg"
-                    onClick={onClickFavorite}
-                    alt="favorite"
-                    className={`h-8 px-2 py-0.5 flex-1 cursor-pointer rounded ${isFavorite ? 'tweet_color' : 'normal'}`}
-                />
+                <button onClick={onClickRetweet} className="h-12 mx-6 px-2 py-0.5 cursor-pointer">
+                    <img src="/images/retweet.svg" alt="retweet" className={`mx-auto p-1 rounded-full ${isRetweeted ? 'bg-blue-200' : 'normal'}`} />
+                </button>
+                <button onClick={onClickFavorite} className="h-12 mx-6 px-2 py-0.5 cursor-pointer">
+                    <img src="/images/favourite.svg" alt="favorite" className={`mx-auto p-1 rounded-md ${isFavorite ? 'bg-blue-200 ' : 'normal'}`} />
+                </button>
             </div>
         </div>
     )

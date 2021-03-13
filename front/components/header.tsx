@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ children, title, image, url, menu }) => {
-    const [showMenuDialog, setShowMenuDialog] = useState<boolean>(true)
+    const [showMenuDialog, setShowMenuDialog] = useState<boolean>(false)
     return (
         <>
             <Head>
