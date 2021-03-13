@@ -6,7 +6,7 @@ interface Props {
     title: string
     image: string
     url: string
-    menu: any
+    menu?: JSX.Element
 }
 
 const Header: React.FC<Props> = ({ children, title, image, url, menu }) => {
