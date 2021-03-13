@@ -14,7 +14,8 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu }) => {
     return (
         <>
             <Head>
-                <title>{title}</title>npm install -D eslint prettier eslint-plugin-react
+                <title>{title}</title>
+                <meta name="viewport" content="width=device-width,initial-scale=1" />
                 <meta property="og:title" content={title} />
                 <meta property="og:type" content="blog" />
                 <meta property="og:url" content={url} />
@@ -29,9 +30,10 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu }) => {
                 <link rel="shortcut icon" href={'https://t-cr.jp/favicon.ico'} />
                 <link rel="apple-touch-icon" href={'https://t-cr.jp/logo.png'} />
             </Head>
-            <div className="lg:flex lg:items-center lg:justify-between bg-gray-800 fixed w-full h-12 z-50">
-                <div className="flex-1 min-w-0 py-2 px-2">
-                    <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:text-3xl sm:truncate">emiru</h2>
+            <div className="flex items-center justify-between bg-gray-800 fixed w-full h-12 z-50 px-4">
+                <img src="/images/emiru_small.png" className="h-10" />
+                <div className="flex-1 min-w-0 py-2">
+                    <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:truncate">emiru (β)</h2>
                 </div>
             </div>
             <div className="h-12" />
