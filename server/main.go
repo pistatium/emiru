@@ -40,8 +40,12 @@ func main() {
 	g := gin.Default()
 	g.Use(gin.Recovery())
 	if env.StaticDir != "" {
+		// FIXME:
 		g.Static("/_next", fmt.Sprintf("%s/_next", env.StaticDir))
 		g.Static("/images", fmt.Sprintf("%s/images", env.StaticDir))
+		g.StaticFile("/favicon.ico", fmt.Sprintf("%s/favicon.ico", env.StaticDir))
+		g.StaticFile("/privacy_policy.html", fmt.Sprintf("%s/privacy_policy.html", env.StaticDir))
+		g.StaticFile("/manifest.json", fmt.Sprintf("%s/manifest.json", env.StaticDir))
 		g.StaticFile("/", fmt.Sprintf("%s/index.html", env.StaticDir))
 		g.StaticFile("/main", fmt.Sprintf("%s/main.html", env.StaticDir))
 	}
