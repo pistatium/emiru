@@ -39,7 +39,7 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
                 <link rel="icon" type="image/png" sizes="128x128" href="/images/icon-128x128.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/images/icon-512x512.png" />
 
-                <link rel="manifest" href="/images/manifest.json" />
+                <link rel="manifest" href="/manifest.json" />
 
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:url" content={image} />
