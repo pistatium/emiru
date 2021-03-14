@@ -6,7 +6,7 @@ interface Props {
     title: string
     image: string
     url: string
-    description: string
+    description?: string
     menu?: JSX.Element
 }
 
