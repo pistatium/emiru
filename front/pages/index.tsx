@@ -5,7 +5,12 @@ import Footer from '../components/footer'
 const Home: React.FC = () => {
     return (
         <div className="">
-            <Header title={'emiru (β) - 絵師さん向けの Twitter 閲覧アプリケーション'} image={''} url={''} />
+            <Header
+                title="emiru (β) - 絵師さん向けの Twitter 閲覧アプリケーション"
+                image="/images/emiru.png"
+                url="https://emiru.pistatium.dev"
+                description="効率よくイラスト付きツイートを巡回する絵師さん向けのアプリケーションです"
+            />
 
             <div className="xl:container xl:mx-auto">
                 <div className=" flex flex-col sm:flex-row xl:my-12 bg-gray-400">
