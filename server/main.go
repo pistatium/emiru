@@ -53,7 +53,6 @@ func main() {
 			if alias == "/index" {
 				alias = "/"
 			}
-			fmt.Println(alias, file)
 			g.StaticFile(alias, file)
 		}
 	}
