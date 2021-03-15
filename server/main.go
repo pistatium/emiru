@@ -9,8 +9,11 @@ import (
 	"github.com/pistatium/emiru/handlers"
 	"github.com/pistatium/emiru/impl/datastore"
 	"github.com/pistatium/emiru/repositories"
+	"io/ioutil"
 	"log"
 	"math/rand"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -39,15 +42,20 @@ func main() {
 
 	g := gin.Default()
 	g.Use(gin.Recovery())
+
 	if env.StaticDir != "" {
-		// FIXME:
-		g.Static("/_next", fmt.Sprintf("%s/_next", env.StaticDir))
-		g.Static("/images", fmt.Sprintf("%s/images", env.StaticDir))
-		g.StaticFile("/favicon.ico", fmt.Sprintf("%s/favicon.ico", env.StaticDir))
-		g.StaticFile("/privacy_policy.html", fmt.Sprintf("%s/privacy_policy.html", env.StaticDir))
-		g.StaticFile("/manifest.json", fmt.Sprintf("%s/manifest.json", env.StaticDir))
-		g.StaticFile("/", fmt.Sprintf("%s/index.html", env.StaticDir))
-		g.StaticFile("/main", fmt.Sprintf("%s/main.html", env.StaticDir))
+		// try files
+		for _, file := range dirwalk(env.StaticDir) {
+			alias := strings.Replace(file, env.StaticDir, "",  1)
+			if strings.HasSuffix(file, ".html") {
+				alias = alias[:len(alias) - 5]
+			}
+			if alias == "/index" {
+				alias = "/"
+			}
+			fmt.Println(alias, file)
+			g.StaticFile(alias, file)
+		}
 	}
 	g.GET("/app/login", handlers.Login(config, server))
 	g.GET("/app/callback", handlers.LoginCallback(config, server, env.IsDebug))
@@ -71,3 +79,21 @@ func main() {
 	}
 }
 
+func dirwalk(dir string) []string {
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		fmt.Println("failed to load files", err)
+		return make([]string, 0)
+	}
+
+	var paths []string
+	for _, file := range files {
+		if file.IsDir() {
+			paths = append(paths, dirwalk(filepath.Join(dir, file.Name()))...)
+			continue
+		}
+		paths = append(paths, filepath.Join(dir, file.Name()))
+	}
+
+	return paths
+}

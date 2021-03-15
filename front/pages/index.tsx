@@ -72,7 +72,7 @@ const Home: React.FC = () => {
                                 連携することによって勝手にツイートされるといったことはありません。
                             </p>
                             <p className="py-2 font-bold underline">
-                                <a href="/privacy_policy.html">プライバシーポリシー</a>
+                                <a href="/privacy_policy">プライバシーポリシー</a>
                             </p>
                         </div>
                     </div>
