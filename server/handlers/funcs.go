@@ -22,6 +22,18 @@ func getTweetClient(ctx *gin.Context, s *repositories.Server) *twitter.Client {
 func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	status := entities.TweetStatus{}
 	statusID := tw.IDStr // RT 展開前のIDをのこす
+
+	images := make([]*entities.Image, 0)
+
+	if tw.ExtendedEntities != nil && len(tw.ExtendedEntities.Media) > 0 {
+		for i, _ := range tw.ExtendedEntities.Media {
+			media := tw.ExtendedEntities.Media[i]
+			images = append(images, &entities.Image{
+				Url: media.MediaURLHttps,
+			})
+		}
+	}
+
 	if tw.RetweetedStatus != nil {
 		status.RetweetedBy = &entities.TweetUser{
 			Name:    tw.User.ScreenName,
@@ -31,13 +43,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		}
 		tw = tw.RetweetedStatus
 	}
-	images := make([]*entities.Image, 0)
-	for j, _ := range tw.Entities.Media {
-		media := tw.Entities.Media[j]
-		images = append(images, &entities.Image{
-			Url: media.MediaURLHttps,
-		})
-	}
+
 	createdAt, err := tw.CreatedAtTime()
 	if err != nil {
 		return nil
