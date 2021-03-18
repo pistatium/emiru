@@ -17,6 +17,7 @@ type TweetUser struct {
 	Name    string `json:"name"`
 	Icon    string `json:"icon"`
 	Profile string `json:"profile"`
+	Link    string `json:"link"`
 }
 
 type Tweet struct {

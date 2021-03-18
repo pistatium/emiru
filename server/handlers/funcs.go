@@ -27,6 +27,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 			Name:    tw.User.ScreenName,
 			Icon:    tw.User.ProfileImageURLHttps,
 			Profile: tw.User.Description,
+			Link: fmt.Sprintf("https://twitter.com/%s", tw.User.ScreenName),
 		}
 		tw = tw.RetweetedStatus
 	}
@@ -54,6 +55,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 			Name:    tw.User.Name,
 			Icon:    tw.User.ProfileImageURLHttps,
 			Profile: tw.User.Description,
+			Link: fmt.Sprintf("https://twitter.com/%s", tw.User.ScreenName),
 		},
 		Images:    images,
 		CreatedAt: createdAt,

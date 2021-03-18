@@ -2,3 +2,7 @@
 .envrc
 *Zone.Identifier
 
+front/public/sw.js
+front/public/workbox-d6d90c3a.js
+*.js.map
+

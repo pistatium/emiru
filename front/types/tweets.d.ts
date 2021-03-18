@@ -3,7 +3,7 @@ export interface TweetImage {
 }
 
 export interface TweetStatus {
-    retweeted_by: TweetUser
+    retweeted_by?: TweetUser
     is_following: boolean
     is_followed: boolean
     is_set_retweeted: boolean
@@ -13,6 +13,8 @@ export interface TweetStatus {
 export interface TweetUser {
     name: string
     icon: string
+    link: string
+    Profile: string
 }
 
 export interface Tweet {
