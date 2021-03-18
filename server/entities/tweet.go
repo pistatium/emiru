@@ -11,6 +11,7 @@ type TweetStatus struct {
 	IsFollowing    bool       `json:"is_following"`
 	IsSetRetweeted bool       `json:"is_set_retweeted"`
 	IsSetFavorite  bool       `json:"is_set_favorite"`
+	RetweetedAt    *time.Time  `json:"retweeted_at"`
 }
 
 type TweetUser struct {

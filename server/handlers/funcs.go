@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pistatium/emiru/entities"
 	"github.com/pistatium/emiru/repositories"
+	"time"
 )
 
 const ContextUserKey = "user"
@@ -22,7 +23,7 @@ func getTweetClient(ctx *gin.Context, s *repositories.Server) *twitter.Client {
 func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	status := entities.TweetStatus{}
 	statusID := tw.IDStr // RT 展開前のIDをのこす
-
+	var retweetedAt *time.Time
 	images := make([]*entities.Image, 0)
 
 	if tw.ExtendedEntities != nil && len(tw.ExtendedEntities.Media) > 0 {
@@ -41,6 +42,8 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 			Profile: tw.User.Description,
 			Link: fmt.Sprintf("https://twitter.com/%s", tw.User.ScreenName),
 		}
+		t, _ := tw.CreatedAtTime()
+		retweetedAt = &t
 		tw = tw.RetweetedStatus
 	}
 
@@ -51,6 +54,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	status.IsFollowing = tw.User.Following
 	status.IsSetFavorite = tw.Favorited
 	status.IsSetRetweeted = tw.Retweeted
+	status.RetweetedAt = retweetedAt
 
 	return &entities.Tweet{
 		ID:       statusID,
