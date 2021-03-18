@@ -8,6 +8,7 @@ export interface TweetStatus {
     is_followed: boolean
     is_set_retweeted: boolean
     is_set_favorite: boolean
+    retweeted_at?: string
 }
 
 export interface TweetUser {

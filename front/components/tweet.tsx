@@ -35,10 +35,13 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                     <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
                         <img className="w-6 h-6 rounded-full mr-4" src={tweet.status.retweeted_by.icon} alt={tweet.status.retweeted_by.name} />
                     </a>
-                    <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
-                        {tweet.status.retweeted_by.name}
-                    </a>
-                    さんが RTしました
+                    <div className="flex-1">
+                        <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
+                            {tweet.status.retweeted_by.name}
+                        </a>
+                        さんが RTしました
+                    </div>
+                    <span className="text-blue-200">{dayjs(tweet.status.retweeted_at).fromNow()}</span>
                 </div>
             ) : null}
 
@@ -59,12 +62,12 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                 <p className="text-leading">{dayjs(tweet.created_at).fromNow()}</p>
             </a>
 
-            <div className="w-full flex content-end px-4 py-1">
-                <button onClick={onClickRetweet} className="flex-1 h-12 cursor-pointer">
-                    <img src="/images/retweet.svg" alt="retweet" className={`mx-auto p-1 rounded-full ${isRetweeted ? 'bg-blue-200' : 'normal'}`} />
+            <div className="w-full flex py-2">
+                <button onClick={onClickRetweet} className="flex-1 cursor-pointer">
+                    <img src="/images/retweet.svg" alt="retweet" className={`h-8 mx-auto p-1 rounded-full ${isRetweeted ? 'bg-blue-200' : 'normal'}`} />
                 </button>
-                <button onClick={onClickFavorite} className="flex-1 h-12 cursor-pointer">
-                    <img src="/images/favourite.svg" alt="favorite" className={`mx-auto p-1 rounded-md ${isFavorite ? 'bg-blue-200 ' : 'normal'}`} />
+                <button onClick={onClickFavorite} className="flex-1 cursor-pointer">
+                    <img src="/images/favourite.svg" alt="favorite" className={`h-8 mx-auto p-1 rounded-md ${isFavorite ? 'bg-blue-200 ' : 'normal'}`} />
                 </button>
             </div>
         </div>
