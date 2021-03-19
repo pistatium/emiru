@@ -55,7 +55,7 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
             </Head>
             <div className="flex items-center justify-between bg-gray-800 fixed w-full h-12 z-50 px-4">
                 <img src="/images/emiru_small.png" className="h-10" />
-                <div className="flex-1 min-w-0 py-2">
+                <div className="flex-1 min-w-0 py-2" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
                     <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:truncate">emiru (β)</h2>
                 </div>
                 {menu != null ? (
