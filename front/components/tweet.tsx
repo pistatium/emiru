@@ -64,10 +64,30 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
 
             <div className="w-full flex py-2">
                 <button onClick={onClickRetweet} className="flex-1 cursor-pointer">
-                    <img src="/images/retweet.svg" alt="retweet" className={`h-8 mx-auto p-1 rounded-full ${isRetweeted ? 'bg-blue-200' : 'normal'}`} />
+                    <svg
+                        className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
+                            isRetweeted ? 'fill-current stroke-2 text-white bg-green-400' : 'stroke-current text-gray-200 opacity-30'
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M5 10v7h10.797l1.594 2h-14.391v-9h-3l4-5 4 5h-3zm14 4v-7h-10.797l-1.594-2h14.391v9h3l-4 5-4-5h3z" />
+                    </svg>
                 </button>
-                <button onClick={onClickFavorite} className="flex-1 cursor-pointer">
-                    <img src="/images/favourite.svg" alt="favorite" className={`h-8 mx-auto p-1 rounded-md ${isFavorite ? 'bg-blue-200 ' : 'normal'}`} />
+                <button onClick={onClickFavorite} className="flex-1 cursor-pointer ">
+                    <svg
+                        className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
+                            isFavorite ? 'fill-current stroke-2 text-white bg-red-400' : 'stroke-current text-gray-200 opacity-30'
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M12 9.229c.234-1.12 1.547-6.229 5.382-6.229 2.22 0 4.618 1.551 4.618 5.003 0 3.907-3.627 8.47-10 12.629-6.373-4.159-10-8.722-10-12.629 0-3.484 2.369-5.005 4.577-5.005 3.923 0 5.145 5.126 5.423 6.231zm-12-1.226c0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-7.962-9.648-9.028-12-3.737-2.338-5.262-12-4.27-12 3.737z" />
+                    </svg>
                 </button>
             </div>
         </div>

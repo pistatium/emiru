@@ -3,6 +3,7 @@ import axios from 'axios'
 import { GetTweetResponse, Tweet } from '../types/tweets'
 import { useSWRInfinite } from 'swr'
 import TweetList from './tweet_list'
+import PullToRefresh from 'react-simple-pull-to-refresh'
 
 interface Props {
     onlyFollowersRT: boolean
@@ -32,7 +33,7 @@ const filterTweet = (tweets: Array<Tweet>, onlyFollowersRT: boolean, filterSensi
 }
 
 const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive }) => {
-    const { data, error, size, setSize } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
+    const { data, error, size, setSize, mutate } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
     const responses = data
     let errorMsg = ''
     if (error) {
@@ -57,7 +58,14 @@ const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive 
 
     return (
         <>
-            <TweetList tweets={filteredTweets} />
+            <PullToRefresh
+                onRefresh={() => {
+                    console.log('reload')
+                    return mutate()
+                }}
+            >
+                <TweetList tweets={filteredTweets} />
+            </PullToRefresh>
             {errorMsg != '' ? (
                 <div className="my-6 font-medium py-4 px-2 bg-white rounded-md text-red-700 bg-red-100 border border-red-300">{errorMsg}</div>
             ) : null}
