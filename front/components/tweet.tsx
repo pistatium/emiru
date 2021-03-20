@@ -35,7 +35,7 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                     <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
                         <img className="w-6 h-6 rounded-full mr-4" src={tweet.status.retweeted_by.icon} alt={tweet.status.retweeted_by.name} />
                     </a>
-                    <div className="flex-1">
+                    <div className="flex-1 truncate">
                         <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
                             {tweet.status.retweeted_by.name}
                         </a>

@@ -9,7 +9,7 @@ const Home: React.FC = () => {
                 title="emiru (β) - 絵師さん向けの Twitter 閲覧アプリケーション"
                 image="/images/emiru.png"
                 url="https://emiru.pistatium.dev"
-                description="Twitter のイラスト付きツイートを効率よく巡回！フォローしてる絵師さんの投稿を見るのに最適なアプリケーションです。"
+                description="Twitter のイラスト付きツイートを効率よく巡回！フォロー中の絵師さんの投稿を見るのに最適なアプリケーションです。"
             />
 
             <div className="xl:container xl:mx-auto">

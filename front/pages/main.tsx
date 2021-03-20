@@ -34,7 +34,6 @@ export default function Main(props) {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

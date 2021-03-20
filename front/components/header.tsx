@@ -20,7 +20,7 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
 
                 <meta name="viewport" content="width=device-width,initial-scale=1" />
                 <meta name="application-name" content="emiru(β)" />
-                <meta name="theme-color" content="#40b9ff" />
+                <meta name="theme-color" content="#f0d258" />
                 <meta name="description" content={description} />
 
                 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,7 +55,7 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
             </Head>
             <div className="flex items-center justify-between bg-gray-800 fixed w-full h-12 z-50 px-4">
                 <img src="/images/emiru_small.png" className="h-10" />
-                <div className="flex-1 min-w-0 py-2" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
+                <div className="flex-1 min-w-0 py-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
                     <h2 className="text-2xl font-bold leading-7 text-gray-100 sm:truncate">emiru (β)</h2>
                 </div>
                 {menu != null ? (

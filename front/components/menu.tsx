@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Footer from './footer'
 
 interface Props {
     onlyFollowersRT: boolean
@@ -84,6 +85,7 @@ const Menu: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive, set
                     </ul>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

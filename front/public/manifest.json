@@ -1,15 +1,15 @@
 {
 	"name":				"emiru(エミル)",
 	"short_name":		"emiru",
-	"description":		"効率よくイラスト付きツイートを巡回する絵師さん向けのアプリケーションです",
+	"description":		"Twitter のイラスト付きツイートを効率よく巡回！フォロー中の絵師さんの投稿を見るのに最適なアプリケーションです。",
 	"start_url":		"/main",
 	"display":			"standalone",
-	"background_color":	"#3290c7",
-	"theme_color":		"#40b9ff",
+	"background_color":	"#f0d258",
+	"theme_color":		"#f0d258",
 	"orientation":		"any",
 	"icons": [
 		{
-			"src": "/images/android-chrome-512x512.png",
+			"src": "/images/emiru.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}
