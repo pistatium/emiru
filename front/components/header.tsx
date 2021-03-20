@@ -34,12 +34,13 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
                 <meta property="og:url" content={url} />
                 <meta property="og:image" content={`${url}${image}`} />
                 <meta property="og:site_name" content="emiru(β)" />
-                <link rel="icon" type="image/vnd.microsoft.icon" href="/images/favicon.ico" />
+
+                <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+                <link rel="manifest" href="/manifest.json" />
+
                 <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png" />
                 <link rel="icon" type="image/png" sizes="128x128" href="/images/icon-128x128.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/images/icon-512x512.png" />
-
-                <link rel="manifest" href="/manifest.json" />
 
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:url" content={image} />
