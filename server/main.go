@@ -65,6 +65,7 @@ func main() {
 		api.GET("users/me", handlers.GetCurrentUser(server))
 
 		api.GET("tweets", handlers.GetTweets(server))
+		api.GET("lists", handlers.GetLists(server))
 
 		api.PUT("favorite", handlers.SetFavorite(server))
 		api.DELETE("favorite", handlers.UnsetFavorite(server))
