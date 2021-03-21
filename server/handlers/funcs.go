@@ -36,12 +36,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	}
 
 	if tw.RetweetedStatus != nil {
-		status.RetweetedBy = &entities.TweetUser{
-			Name:    tw.User.ScreenName,
-			Icon:    tw.User.ProfileImageURLHttps,
-			Profile: tw.User.Description,
-			Link: fmt.Sprintf("https://twitter.com/%s", tw.User.ScreenName),
-		}
+		status.RetweetedBy = parseUser(tw.User)
 		t, _ := tw.CreatedAtTime()
 		retweetedAt = &t
 		tw = tw.RetweetedStatus
@@ -61,15 +56,28 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		TargetID: tw.IDStr,
 		URL:      fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
 		Text:     tw.FullText,
-		Author: &entities.TweetUser{
-			Name:    tw.User.Name,
-			Icon:    tw.User.ProfileImageURLHttps,
-			Profile: tw.User.Description,
-			Link: fmt.Sprintf("https://twitter.com/%s", tw.User.ScreenName),
-		},
+		Author: parseUser(tw.User),
 		Images:    images,
 		CreatedAt: createdAt,
 		Status:    &status,
 		IsSensitive: tw.PossiblySensitive,
+	}
+}
+
+func parseUser(user *twitter.User) *entities.TweetUser {
+	return &entities.TweetUser{
+		Name:    user.Name,
+		Icon:    user.ProfileImageURLHttps,
+		Profile: user.Description,
+		Link:   fmt.Sprintf("https://twitter.com/%s", user.ScreenName) ,
+	}
+}
+
+func parseList(list *twitter.List) *entities.List {
+	return &entities.List{
+		ID:          list.IDStr,
+		Name:        list.Name,
+		Description: list.Description,
+		Creator:     parseUser(list.User),
 	}
 }

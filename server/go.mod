@@ -15,6 +15,6 @@ require (
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pelletier/go-toml v1.8.1 // indirect
-	golang.org/x/sys v0.0.0-20210319071255-635bc2c9138d // indirect
+	golang.org/x/sys v0.0.0-20210320140829-1e4c9ba3b0c4 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
