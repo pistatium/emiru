@@ -1,6 +1,7 @@
 import Header from '../components/header'
 import React from 'react'
 import Footer from '../components/footer'
+import Ad from '../components/ad'
 
 const Home: React.FC = () => {
     return (
@@ -85,6 +86,8 @@ const Home: React.FC = () => {
                         Twitter でログインして開始
                     </a>
                 </section>
+
+                <Ad />
 
                 <Footer />
             </div>

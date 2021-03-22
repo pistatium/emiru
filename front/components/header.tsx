@@ -53,6 +53,8 @@ const Header: React.FC<Props> = ({ children, title, image, url, menu, descriptio
                 <meta name="msapplication-wide310x150logo" content="/site-tile-310x150.png" />
                 <meta name="msapplication-square310x310logo" content="/site-tile-310x310.png" />
                 <meta name="msapplication-TileColor" content="#0078d7" />
+
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             </Head>
             <div className="flex items-center justify-between bg-gray-800 fixed w-full h-12 z-50 px-4">
                 <img src="/images/emiru_small.png" className="h-10" />
