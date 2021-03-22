@@ -13,21 +13,41 @@ interface Props {
 }
 
 const setFavorite = targetID => axios.put(`/app/api/favorite`, { target_id: targetID }).then(res => res.data)
+const delFavorite = targetID => axios.delete(`/app/api/favorite`, { data: { target_id: targetID } }).then(res => res.data)
 const setRetweet = targetID => axios.put(`/app/api/retweet`, { target_id: targetID }).then(res => res.data)
+const delRetweet = targetID => axios.delete(`/app/api/retweet`, { data: { target_id: targetID } }).then(res => res.data)
 
 const TweetCard: React.FC<Props> = ({ children, tweet }) => {
     const [isFavorite, setIsFavorite] = React.useState(tweet.status.is_set_favorite)
     const [isRetweeted, setIsRetweeted] = React.useState(tweet.status.is_set_retweeted)
     const onClickFavorite = () => {
-        setIsFavorite(true)
-        setFavorite(tweet.target_id)
+        if (isFavorite) {
+            setIsFavorite(false)
+            delFavorite(tweet.target_id).catch(() => {
+                setIsFavorite(true)
+            })
+        } else {
+            setIsFavorite(true)
+            setFavorite(tweet.target_id).catch(() => {
+                setIsFavorite(false)
+            })
+        }
     }
     const onClickRetweet = () => {
-        setIsRetweeted(true)
-        setRetweet(tweet.target_id)
+        if (isRetweeted) {
+            setIsRetweeted(false)
+            delRetweet(tweet.target_id).catch(() => {
+                setIsRetweeted(true)
+            })
+        } else {
+            setIsRetweeted(true)
+            setRetweet(tweet.target_id).catch(() => {
+                setIsRetweeted(false)
+            })
+        }
     }
     return (
-        <div className="shadow bg-white my-2">
+        <div className="shadow bg-white my-4">
             <Images images={tweet.images} />
 
             {tweet.status.retweeted_by ? (
