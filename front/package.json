@@ -16,6 +16,7 @@
     "next": "10.0.5",
     "next-pwa": "^5.0.6",
     "postcss": "^8.2.4",
+    "postcss-focus-visible": "^5.0.0",
     "react": "17.0.1",
     "react-adsense": "^0.1.0",
     "react-dom": "17.0.1",

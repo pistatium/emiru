@@ -55,9 +55,9 @@ const Menu: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive, set
             <div className="bg-white px-6 my-4 mx-auto rounded-lg shadow-md">
                 <div className="w-full">
                     <ul className="-mx-4">
-                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
-                            <a className="text-lg text-gray-700" href="#" rel="noreferrer" target="_blank">
-                                使い方
+                        <li className="p-4 cursor-not-allowed">
+                            <a className="text-lg text-gray-300">
+                                使い方<span className="text-sm">(作成中)</span>
                             </a>
                         </li>
                         <li className="p-4 hover:bg-gray-50 cursor-pointer">

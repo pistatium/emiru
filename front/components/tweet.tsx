@@ -83,7 +83,7 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
             </a>
 
             <div className="w-full flex py-2">
-                <button onClick={onClickRetweet} className="flex-1 cursor-pointer">
+                <button onClick={onClickRetweet} className="flex-1 cursor-pointer rounded-md focus:outline-none focus:bg-gray-100">
                     <svg
                         className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
                             isRetweeted ? 'fill-current stroke-2 text-white bg-green-400' : 'stroke-current text-gray-200 opacity-30'
@@ -96,7 +96,7 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                         <path d="M5 10v7h10.797l1.594 2h-14.391v-9h-3l4-5 4 5h-3zm14 4v-7h-10.797l-1.594-2h14.391v9h3l-4 5-4-5h3z" />
                     </svg>
                 </button>
-                <button onClick={onClickFavorite} className="flex-1 cursor-pointer ">
+                <button onClick={onClickFavorite} className="flex-1 cursor-pointer rounded-md focus:outline-none focus:bg-gray-100">
                     <svg
                         className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
                             isFavorite ? 'fill-current stroke-2 text-white bg-red-400' : 'stroke-current text-gray-200 opacity-30'

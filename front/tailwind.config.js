@@ -5,7 +5,9 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {},
     variants: {
-        extend: {},
+        extend: {
+            textDecoration: ['focus-visible'],
+        },
     },
     plugins: [],
 }
