@@ -27,7 +27,7 @@ a {
   filter: invert(97%) sepia(2%) saturate(1%) hue-rotate(146deg) brightness(106%) contrast(96%);
 }
 
-
+/* toggle switch */
 .toggle-checkbox:checked {
   @apply: right-0 border-green-400;
   right: 0;
@@ -36,4 +36,9 @@ a {
 .toggle-checkbox:checked + .toggle-label {
   @apply: bg-green-400;
   background-color: #68D391;
+}
+
+/* checkbox */
+input:checked + svg {
+  display: block;
 }
