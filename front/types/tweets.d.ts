@@ -15,7 +15,7 @@ export interface TweetUser {
     name: string
     icon: string
     link: string
-    Profile: string
+    profile: string
 }
 
 export interface Tweet {
