@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Footer from './footer'
+import Link from 'next/link'
 
 interface Props {
     onlyFollowersRT: boolean
@@ -52,6 +53,18 @@ const Menu: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive, set
                     </ul>
                 </div>
             </div>
+            <div className="bg-white px-6 my-1 mx-auto rounded-lg shadow-md">
+                <div className="w-full">
+                    <ul className="-mx-4">
+                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
+                            <Link href="/edit_lists">
+                                <a className="text-lg text-gray-700">リスト登録</a>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div className="bg-white px-6 my-4 mx-auto rounded-lg shadow-md">
                 <div className="w-full">
                     <ul className="-mx-4">

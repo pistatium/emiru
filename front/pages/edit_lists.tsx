@@ -5,7 +5,7 @@ import axios from 'axios'
 import { GetListResponse, List } from '../types/lists'
 import useSWR from 'swr'
 import ListCell from '../components/list_cell'
-
+import Link from 'next/link'
 const fetcher = url => axios.get<GetListResponse>('/app/api/lists').then(res => res.data)
 
 const MAX_LIST_SIZE = 3
@@ -22,8 +22,6 @@ export default function EditList(props) {
     }, [])
 
     useEffect(() => {
-        console.log(selectedList)
-        console.log(selectedList.join(','))
         localStorage.setItem('lists', selectedList.join(','))
     }, [selectedList])
 
@@ -42,15 +40,22 @@ export default function EditList(props) {
             <Header title={'emiru - リスト編集'} image={''} url={''} />
             <div className="flex">
                 <div className="op-0 xl:w-1/4"></div>
-                <div className="flex-1 m-4 bg-white rounded-md">
-                    <h2 className="text-2xl m-4">リスト編集</h2>
+                <div className="flex-1 m-4 p-4 bg-white rounded-md">
+                    <div className="flex">
+                        <h2 className="flex-1 text-2xl">リスト編集</h2>
+                        <Link href="/main">
+                            <a className="inline-block px-8 py-3 text-center leading-none text-white bg-blue-500 hover:bg-blue-700 font-semibold rounded shadow">
+                                完了
+                            </a>
+                        </Link>
+                    </div>
                     {error ? (
-                        <div className="my-6 font-medium py-4 px-2 bg-white rounded-md text-red-700 bg-red-100 border border-red-300">
+                        <div className="m-2 py-4 px-2 text-sm bg-white rounded-md text-red-700 bg-red-100 border border-red-300">
                             リストの読み込みに失敗しました。時間をおいてリトライしてください。
                         </div>
                     ) : null}
                     {isLimited() ? (
-                        <div className="bg-yellow-100 rounded-md p-4 m-2 text-sm text-yellow-900">リスト登録できる上限は{MAX_LIST_SIZE}つまでです</div>
+                        <div className="bg-yellow-100 rounded-md p-4 m-2 text-sm text-yellow-900">リスト登録できる上限は{MAX_LIST_SIZE}つまでです。</div>
                     ) : null}
                     <div className="col-start-2 col-span-6 divide-y">
                         {data?.lists.map(l => (
