@@ -1,6 +1,6 @@
 import Header from '../components/header'
 import Footer from '../components/footer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { GetListResponse, List } from '../types/lists'
 import useSWR from 'swr'
@@ -11,56 +11,22 @@ const fetcher = url => axios.get<GetListResponse>('/app/api/lists').then(res => 
 const MAX_LIST_SIZE = 3
 
 export default function EditList(props) {
-    //const { data, error } = useSWR('lists', fetcher)
-    const data = {
-        lists: [
-            {
-                id: '1212694737632681986',
-                name: 'b',
-                description: '',
-                creator: {
-                    name: 'kimihiro_n',
-                    icon: 'https://pbs.twimg.com/profile_images/1141706435190853632/UBZCLFxL_normal.jpg',
-                    profile: 'Python や Go でサーバーサイドの開発してます。昔は Android アプリも作ってました。 / ロードバイク / イラスト描き / Pistatium',
-                    link: 'https://twitter.com/kimihiro_n',
-                },
-            },
-            {
-                id: '103115876',
-                name: 'a',
-                description: 'aaaaaa',
-                creator: {
-                    name: 'kimihiro_n',
-                    icon: 'https://pbs.twimg.com/profile_images/1141706435190853632/UBZCLFxL_normal.jpg',
-                    profile: 'Python や Go でサーバーサイドの開発してます。昔は Android アプリも作ってました。 / ロードバイク / イラスト描き / Pistatium',
-                    link: 'https://twitter.com/kimihiro_n',
-                },
-            },
-            {
-                id: '1031158761',
-                name: 'a2',
-                description: 'aaaaaa',
-                creator: {
-                    name: 'kimihiro_n',
-                    icon: 'https://pbs.twimg.com/profile_images/1141706435190853632/UBZCLFxL_normal.jpg',
-                    profile: 'Python や Go でサーバーサイドの開発してます。昔は Android アプリも作ってました。 / ロードバイク / イラスト描き / Pistatium',
-                    link: 'https://twitter.com/kimihiro_n',
-                },
-            },
-            {
-                id: '1031158762',
-                name: 'a3',
-                description: 'aaaaaa',
-                creator: {
-                    name: 'kimihiro_n',
-                    icon: 'https://pbs.twimg.com/profile_images/1141706435190853632/UBZCLFxL_normal.jpg',
-                    profile: 'Python や Go でサーバーサイドの開発してます。昔は Android アプリも作ってました。 / ロードバイク / イラスト描き / Pistatium',
-                    link: 'https://twitter.com/kimihiro_n',
-                },
-            },
-        ],
-    }
+    const { data, error } = useSWR('lists', fetcher)
     const [selectedList, setSelectedList] = useState<Array<string>>([])
+
+    useEffect(() => {
+        const lists = localStorage.getItem('lists')
+        if (lists != undefined) {
+            setSelectedList(lists.split(','))
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log(selectedList)
+        console.log(selectedList.join(','))
+        localStorage.setItem('lists', selectedList.join(','))
+    }, [selectedList])
+
     const onClickList = (listId: string, checked: boolean) => {
         if (!checked) {
             setSelectedList([...selectedList, listId])
@@ -78,6 +44,11 @@ export default function EditList(props) {
                 <div className="op-0 xl:w-1/4"></div>
                 <div className="flex-1 m-4 bg-white rounded-md">
                     <h2 className="text-2xl m-4">リスト編集</h2>
+                    {error ? (
+                        <div className="my-6 font-medium py-4 px-2 bg-white rounded-md text-red-700 bg-red-100 border border-red-300">
+                            リストの読み込みに失敗しました。時間をおいてリトライしてください。
+                        </div>
+                    ) : null}
                     {isLimited() ? (
                         <div className="bg-yellow-100 rounded-md p-4 m-2 text-sm text-yellow-900">リスト登録できる上限は{MAX_LIST_SIZE}つまでです</div>
                     ) : null}
