@@ -15,6 +15,7 @@ type GetTweetResponse struct {
 
 func GetTweets(s *repositories.Server) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
+	    listID, _ := strconv.ParseInt(ctx.Query("list_id"), 10, 64)
 		sinceID, _ := strconv.ParseInt(ctx.Query("since_id"), 10, 64)
 		maxID, _ := strconv.ParseInt(ctx.Query("max_id"), 10, 64)
 		if maxID != 0 {
@@ -22,15 +23,28 @@ func GetTweets(s *repositories.Server) func(ctx *gin.Context) {
 			println(maxID)
 		}
 		twClient := getTweetClient(ctx, s)
-		tweets, _, err := twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
-			Count:              200,
-			SinceID:            sinceID,
-			MaxID:              maxID,
-			ExcludeReplies:     twitter.Bool(true),
-			ContributorDetails: nil,
-			IncludeEntities:    twitter.Bool(true),
-			TweetMode:          "extended",
-		})
+		var err error
+		var tweets []twitter.Tweet
+		if listID == "" {
+            tweets, _, err = twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
+                Count:              200,
+                SinceID:            sinceID,
+                MaxID:              maxID,
+                ExcludeReplies:     twitter.Bool(true),
+                ContributorDetails: nil,
+                IncludeEntities:    twitter.Bool(true),
+                TweetMode:          "extended",
+            })
+        } else {
+            tweets, _, err = twClient.Lists.Statuses(&twitter.ListsStatusesParams{
+                ListID:          listID,
+                SinceID:         sinceID,
+                MaxID:           maxID,
+                Count:           200,
+                IncludeEntities: twitter.Bool(true),
+                IncludeRetweets: twitter.Bool(false),
+            })
+        }
 
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
