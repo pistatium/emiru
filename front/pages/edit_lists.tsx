@@ -15,14 +15,17 @@ export default function EditList(props) {
     const [selectedList, setSelectedList] = useState<Array<string>>([])
 
     useEffect(() => {
-        const lists = localStorage.getItem('lists')
+        const lists: Array<List> = JSON.parse(localStorage.getItem('lists'))
         if (lists != undefined) {
-            setSelectedList(lists.split(','))
+            setSelectedList(lists.map(l => l.id))
         }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('lists', selectedList.join(','))
+        if (data != undefined) {
+            const lists = data.lists.filter(l => selectedList.includes(l.id))
+            localStorage.setItem('lists', JSON.stringify(lists))
+        }
     }, [selectedList])
 
     const onClickList = (listId: string, checked: boolean) => {

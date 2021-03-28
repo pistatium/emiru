@@ -25,7 +25,7 @@ func GetTweets(s *repositories.Server) func(ctx *gin.Context) {
 		twClient := getTweetClient(ctx, s)
 		var err error
 		var tweets []twitter.Tweet
-		if listID == "" {
+		if listID == 0 {
             tweets, _, err = twClient.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
                 Count:              200,
                 SinceID:            sinceID,
