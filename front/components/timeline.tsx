@@ -4,22 +4,26 @@ import { GetTweetResponse, Tweet } from '../types/tweets'
 import { useSWRInfinite } from 'swr'
 import TweetList from './tweet_list'
 import PullToRefresh from 'react-simple-pull-to-refresh'
+import { List } from '../types/lists'
 
 interface Props {
+    listID: string
     onlyFollowersRT: boolean
     filterSensitive: boolean
 }
 
 const fetcher = url => axios.get<GetTweetResponse>(url).then(res => res.data)
 
-const getKey = (pageIndex: number, previousPageData: GetTweetResponse): string => {
-    const path = '/app/api/tweets'
-    // const path = '/dummy_data/tweets.json'
-    if (pageIndex === 0) return path
-    if (!previousPageData || !previousPageData.tweets) return null
-    if (previousPageData.tweets.length == 0) return null
-    const lastId = previousPageData.tweets.slice(-1)[0].id
-    return `${path}?max_id=${lastId}`
+const getKey = (listId: string) => {
+    return (pageIndex: number, previousPageData: GetTweetResponse): string => {
+        const path = `/app/api/tweets?list_id=${listId}`
+        // const path = '/dummy_data/tweets.json'
+        if (pageIndex === 0) return path
+        if (!previousPageData || !previousPageData.tweets) return null
+        if (previousPageData.tweets.length == 0) return null
+        const lastId = previousPageData.tweets.slice(-1)[0].id
+        return `${path}&max_id=${lastId}`
+    }
 }
 
 const filterTweet = (tweets: Array<Tweet>, onlyFollowersRT: boolean, filterSensitive: boolean): Array<Tweet> => {
@@ -32,8 +36,8 @@ const filterTweet = (tweets: Array<Tweet>, onlyFollowersRT: boolean, filterSensi
     return tweets
 }
 
-const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive }) => {
-    const { data, error, size, setSize, mutate } = useSWRInfinite(getKey, fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
+const Timeline: React.FC<Props> = ({ children, listID, onlyFollowersRT, filterSensitive }) => {
+    const { data, error, size, setSize, mutate } = useSWRInfinite(getKey(listID), fetcher, { revalidateOnFocus: false, revalidateOnReconnect: false })
     const responses = data
     let errorMsg = ''
     if (error) {
@@ -69,6 +73,7 @@ const Timeline: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive 
             >
                 <TweetList tweets={filteredTweets} />
             </PullToRefresh>
+
             {errorMsg != '' ? (
                 <div className="my-6 font-medium py-4 px-2 bg-white rounded-md text-red-700 bg-red-100 border border-red-300">{errorMsg}</div>
             ) : null}
