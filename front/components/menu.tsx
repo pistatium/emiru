@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Footer from './footer'
 import Link from 'next/link'
+import Router from 'next/router'
 
 interface Props {
     onlyFollowersRT: boolean
@@ -89,7 +90,8 @@ const Menu: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive, set
                                 className="text-lg text-gray-700"
                                 onClick={() => {
                                     document.cookie = 'value=; max-age=60'
-                                    location.href = '/'
+                                    localStorage.clear()
+                                    Router.push('/')
                                 }}
                             >
                                 ログアウト

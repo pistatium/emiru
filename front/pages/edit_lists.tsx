@@ -49,6 +49,9 @@ export default function EditList(props) {
                             </a>
                         </Link>
                     </div>
+                    <div className="my-4 text-sm text-gray-400">
+                        Twitter のリストを選択して、リストタイムラインを表示できます。選択できるリストは3つまでです。
+                    </div>
                     {error ? (
                         <div className="m-2 py-4 px-2 text-sm bg-white rounded-md text-red-700 bg-red-100 border border-red-300">
                             リストの読み込みに失敗しました。時間をおいてリトライしてください。
