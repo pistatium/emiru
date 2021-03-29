@@ -40,7 +40,7 @@ export default function EditList(props) {
     }
     return (
         <div className="lg:container xl:mx-auto xl:px-24 bg-gray-100">
-            <Header title={'emiru - リスト編集'} image={''} url={''} />
+            <Header title={'emiru - リスト編集'} />
             <div className="flex">
                 <div className="op-0 xl:w-1/4"></div>
                 <div className="flex-1 m-4 p-4 bg-white rounded-md">
