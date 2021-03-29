@@ -14,6 +14,7 @@
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "next": "10.0.5",
+    "next-ga": "^2.3.4",
     "next-pwa": "^5.0.6",
     "postcss": "^8.2.4",
     "postcss-focus-visible": "^5.0.0",
