@@ -13,9 +13,18 @@ export default function Main(props) {
     const [myList, setMyList] = useState<Array<List>>([])
     const [activeList, setActiveList] = useState<string>('')
     useEffect(() => {
-        const lists: Array<List> = JSON.parse(localStorage.getItem('lists'))
+        const lists: Array<List> = JSON.parse(localStorage.getItem('lists') || '[]')
         setMyList(lists)
+        setOnlyFollowersRT('true' === (localStorage.getItem('conf_only_followers') || ''))
+        setFilterSensitive('true' === (localStorage.getItem('conf_sensitive') || 'true'))
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('conf_only_followers', onlyFollowersRT ? 'true' : 'false')
+    }, [onlyFollowersRT])
+    useEffect(() => {
+        localStorage.setItem('conf_sensitive', filterSensitive ? 'true' : 'false')
+    }, [filterSensitive])
 
     const menu = (
         <Menu
@@ -32,7 +41,7 @@ export default function Main(props) {
             <div className="lg:container xl:mx-auto xl:px-24">
                 <div className="flex sm:flex-row">
                     <div className="flex-auto flex flex-col w-1/2">
-                        {myList != [] ? (
+                        {myList.length > 0 ? (
                             <nav className="flex flex-row">
                                 <ListTab
                                     name="ホーム"

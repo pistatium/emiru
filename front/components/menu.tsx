@@ -57,11 +57,11 @@ const Menu: React.FC<Props> = ({ children, onlyFollowersRT, filterSensitive, set
             <div className="bg-white px-6 my-1 mx-auto rounded-lg shadow-md">
                 <div className="w-full">
                     <ul className="-mx-4">
-                        <li className="p-4 hover:bg-gray-50 cursor-pointer">
-                            <Link href="/edit_lists">
+                        <Link href="/edit_lists">
+                            <li className="p-4 hover:bg-gray-50 cursor-pointer">
                                 <a className="text-lg text-gray-700">リスト登録</a>
-                            </Link>
-                        </li>
+                            </li>
+                        </Link>
                     </ul>
                 </div>
             </div>

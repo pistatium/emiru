@@ -15,7 +15,7 @@ export default function EditList(props) {
     const [selectedList, setSelectedList] = useState<Array<string>>([])
 
     useEffect(() => {
-        const lists: Array<List> = JSON.parse(localStorage.getItem('lists'))
+        const lists: Array<List> = JSON.parse(localStorage.getItem('lists') || '[]')
         if (lists != undefined) {
             setSelectedList(lists.map(l => l.id))
         }
