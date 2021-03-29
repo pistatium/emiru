@@ -51,11 +51,15 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 	status.IsSetRetweeted = tw.Retweeted
 	status.RetweetedAt = retweetedAt
 
+	text := tw.FullText
+	if text == "" {
+	    text = tw.Text
+    }
 	return &entities.Tweet{
 		ID:       statusID,
 		TargetID: tw.IDStr,
 		URL:      fmt.Sprintf("https://twitter.com/%s/status/%s", tw.User.ScreenName, tw.IDStr),
-		Text:     tw.FullText,
+		Text:     text,
 		Author: parseUser(tw.User),
 		Images:    images,
 		CreatedAt: createdAt,
