@@ -6,13 +6,7 @@ import Ad from '../components/ad'
 const Home: React.FC = () => {
     return (
         <div className="">
-            <Header
-                title="emiru (β) - 絵師さん向けの Twitter 閲覧アプリケーション"
-                image="/images/emiru.png"
-                url="https://emiru.pistatium.dev"
-                description="Twitter のイラスト付きツイートを効率よく巡回！フォロー中の絵師さんの投稿を見るのに最適なアプリケーションです。"
-            />
-
+            <Header title="emiru (β) - イラスト閲覧に特化した Twitter アプリケーション" />
             <div className="xl:container xl:mx-auto">
                 <div className=" flex flex-col sm:flex-row xl:my-12 bg-gray-400">
                     <div className="flex-auto flex w-full flex-col  bg-gray-100 text-gray-600">

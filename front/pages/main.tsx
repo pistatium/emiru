@@ -36,7 +36,7 @@ export default function Main(props) {
     )
     return (
         <div className="bg-gray-100">
-            <Header title={'emiru - mainフィード'} image={''} url={''} menu={menu} />
+            <Header title={'emiru (β)'} menu={menu} />
 
             <div className="lg:container xl:mx-auto xl:px-24">
                 <div className="flex sm:flex-row">

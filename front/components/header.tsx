@@ -4,14 +4,14 @@ import { useState } from 'react'
 
 interface Props {
     title: string
-    image: string
-    url: string
-    description?: string
     menu?: JSX.Element
 }
 
-const Header: React.FC<Props> = ({ children, title, image, url, menu, description }) => {
+const Header: React.FC<Props> = ({ children, title, menu }) => {
     const [showMenuDialog, setShowMenuDialog] = useState<boolean>(false)
+    const description = 'Twitter のイラスト付きツイートを効率よく巡回！フォロー中の絵師さんの投稿を見るのに最適なアプリケーションです。'
+    const image = '/images/emiru.png'
+    const url = 'https://emiru.pistatium.dev'
     return (
         <>
             <Head>
