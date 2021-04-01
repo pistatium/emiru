@@ -65,6 +65,7 @@ func parseTweet(tw *twitter.Tweet) *entities.Tweet {
 		CreatedAt: createdAt,
 		Status:    &status,
 		IsSensitive: tw.PossiblySensitive,
+		IsPrivate: tw.User.Protected,
 	}
 }
 

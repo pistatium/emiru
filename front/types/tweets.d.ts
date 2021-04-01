@@ -28,6 +28,7 @@ export interface Tweet {
     created_at: string
     status: TweetStatus
     is_sensitive: boolean
+    is_private: boolean
 }
 
 export interface GetTweetResponse {

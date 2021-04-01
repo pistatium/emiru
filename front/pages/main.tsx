@@ -6,6 +6,7 @@ import Timeline from '../components/timeline'
 import Menu from '../components/menu'
 import { List } from '../types/lists'
 import ListTab from '../components/list_tab'
+import Ad from '../components/ad'
 
 export default function Main(props) {
     const [onlyFollowersRT, setOnlyFollowersRT] = useState<boolean>(false)
@@ -40,7 +41,7 @@ export default function Main(props) {
 
             <div className="lg:container xl:mx-auto xl:px-24">
                 <div className="flex sm:flex-row">
-                    <div className="flex-auto flex flex-col w-1/2">
+                    <div className="flex-auto flex flex-col md:w-1/2 lg:w-2/3 md:ml-6">
                         {myList.length > 0 ? (
                             <nav className="flex flex-row">
                                 <ListTab
@@ -68,9 +69,12 @@ export default function Main(props) {
                         <Timeline listID={activeList} onlyFollowersRT={onlyFollowersRT} filterSensitive={filterSensitive} />
                     </div>
 
-                    <div className="flex-none md:block md:w-1/2 spx-auto">
+                    <div className="flex-none md:block md:w-1/2 lg:w-1/3 spx-auto">
                         <div className="fixed hidden md:block px-6" style={{ maxWidth: 512 }}>
                             {menu}
+                            <div className="my-4 mx-2">
+                                <Ad />
+                            </div>
                         </div>
                     </div>
                 </div>
