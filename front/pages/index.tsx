@@ -20,7 +20,7 @@ const Home: React.FC = () => {
                             </div>
                             <p className="leading text-sm mt-4 mb-4 break-words text-gray-600">
                                 <strong>emiru</strong> (エミル)は絵師さん向けの Twitter 表示アプリケーションです。
-                                効率よくイラスト付きのツイートを巡回することを目的につくられました。 ベータ版は無料でお使いいただけます。
+                                効率よくイラスト付きのツイートを巡回することを目的につくられました。 無料でお使いいただけます。
                             </p>
                             <form action="/app/login" method="GET" className="py-2">
                                 <button className="w-full inline-block py-4 px-8 leading-none text-white bg-blue-500 hover:bg-blue-700 font-semibold rounded shadow">
@@ -55,6 +55,12 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </section>
+
+                <section className="my-4 py-4 px-4 text-center bg-gray-100 rounded-md max-w-screen-sm mx-auto">
+                    <img src="/images/about_emiru.png" className="rounded  mx-auto" />
+                    <p className="text-gray-400 text-sm mt-1">利用イメージ</p>
+                </section>
+
                 <section className="mx-4 lg:mx-24 py-4 px-4 bg-yellow-100 rounded text-gray-600">
                     <div className="flex flex-wrap -mx-2">
                         <div className="lg:w-2/5 lg:pr-16 px-2  mb-2 lg:mb-0">
@@ -73,15 +79,16 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section className="py-16 px-4 text-center">
+                <section className="py-16 px-4 text-center text-gray-600 text-sm">
                     <img src="/images/emiru.png" className="w-48 h-48 mx-auto" />
-
-                    <a className="inline-block py-4 px-8 leading-none text-white bg-blue-500 hover:bg-blue-700 font-semibold rounded shadow" href="/app/login">
+                    <div className="py-2">スマホ、PCでブックマークして使うことで便利に使えます。PWA対応！</div>
+                    <a
+                        className="inline-block mt-4 py-4 px-8 leading-none text-white bg-blue-500 hover:bg-blue-700 font-semibold rounded shadow"
+                        href="/app/login"
+                    >
                         Twitter でログインして開始
                     </a>
                 </section>
-
-                <Ad />
 
                 <Footer />
             </div>
