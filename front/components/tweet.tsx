@@ -83,19 +83,33 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
             </a>
 
             <div className="w-full flex py-2">
-                <button onClick={onClickRetweet} className="flex-1 cursor-pointer rounded-md focus:outline-none focus:bg-gray-100">
-                    <svg
-                        className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
-                            isRetweeted ? 'fill-current stroke-2 text-white bg-green-400' : 'stroke-current text-gray-200 opacity-30'
-                        }`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M5 10v7h10.797l1.594 2h-14.391v-9h-3l4-5 4 5h-3zm14 4v-7h-10.797l-1.594-2h14.391v9h3l-4 5-4-5h3z" />
-                    </svg>
-                </button>
+                {tweet.is_private ? (
+                    <div className="flex-1 cursor-not-allowed rounded-md">
+                        <svg
+                            className="h-8 w-8 mx-auto p-1 fill-current text-center text-gray-200"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M10 17.011l-1.862-1.837 1.129-1.13 1.859 1.827 1.838-1.871 1.139 1.139-1.833 1.86 1.868 1.836-1.138 1.14-1.862-1.836-1.835 1.861-1.13-1.129 1.827-1.86zm10.138-7.011v14h-18v-14h3v-4c0-3.313 2.687-6 6-6s6 2.687 6 6v4h3zm-13 0h8v-4c0-2.206-1.795-4-4-4s-4 1.794-4 4v4zm11 2h-14v10h14v-10z" />
+                        </svg>
+                    </div>
+                ) : (
+                    <button onClick={onClickRetweet} className="flex-1 cursor-pointer rounded-md focus:outline-none focus:bg-gray-100">
+                        <svg
+                            className={`h-8 w-8 mx-auto p-1 rounded-md block text-center ${
+                                isRetweeted ? 'fill-current stroke-2 text-white bg-green-400' : 'stroke-current text-gray-200 opacity-30'
+                            }`}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M5 10v7h10.797l1.594 2h-14.391v-9h-3l4-5 4 5h-3zm14 4v-7h-10.797l-1.594-2h14.391v9h3l-4 5-4-5h3z" />
+                        </svg>
+                    </button>
+                )}
                 <button onClick={onClickFavorite} className="flex-1 cursor-pointer rounded-md focus:outline-none focus:bg-gray-100">
                     <svg
                         className={`h-8 w-8 mx-auto p-1 rounded-md block opactext-center ${
