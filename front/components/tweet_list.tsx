@@ -15,7 +15,7 @@ const TweetList: React.FC<Props> = ({ children, tweets }) => {
                 <>
                     <TweetCard key={tw.id} tweet={tw} />
                     {i % 7 == 3 ? (
-                        <div key={`ad-${i}`} className="my-4 mx-2">
+                        <div key={`ad-${i}`} className="py-4 px-2 w-full">
                             <Ad />
                         </div>
                     ) : null}

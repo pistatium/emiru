@@ -51,17 +51,17 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
             <Images images={tweet.images} />
 
             {tweet.status.retweeted_by ? (
-                <div className="bg-blue-500 text-white mt-0 px-4 flex  py-1">
+                <div className="bg-blue-500 text-white mt-0 px-4 flex py-1">
                     <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
                         <img className="w-6 h-6 rounded-full mr-4" src={tweet.status.retweeted_by.icon} alt={tweet.status.retweeted_by.name} />
                     </a>
-                    <div className="flex-1 truncate">
+                    <div className="text-sm truncate" style={{ maxWidth: 200 }}>
                         <a href={tweet.status.retweeted_by.link} target="_blank" rel="noreferrer">
                             {tweet.status.retweeted_by.name}
                         </a>
-                        さんが RTしました
+                        さんが RT しました
                     </div>
-                    <span className="text-blue-200">{dayjs(tweet.status.retweeted_at).fromNow()}</span>
+                    <span className="flex-1 text-right text-blue-200 mx-auto">{dayjs(tweet.status.retweeted_at).fromNow()}</span>
                 </div>
             ) : null}
 
@@ -70,13 +70,15 @@ const TweetCard: React.FC<Props> = ({ children, tweet }) => {
                     <img className="w-8 h-8 rounded-full overflow-hidden" src={tweet.author.icon} alt={tweet.author.name} />
                 </a>
                 <a href={tweet.author.link} className="flex-1 inline-block" target="_blank" rel="noreferrer">
-                    <p className="text-lg truncate">{tweet.author.name}</p>
+                    <p className="text-lg truncate" style={{ maxWidth: 270 }}>
+                        {tweet.author.name}
+                    </p>
                 </a>
 
                 <img src="/images/logo-twitter.svg" alt="twitter" className="ml-2 mt-1 w-6 h-6 tweet_color" />
             </div>
 
-            <div className="px-4 w-fulltext-gray-600 text-sm mt-2 text-gray-600">{tweet.text}</div>
+            <div className="px-4 w-fulltext-gray-600 text-sm mt-2 text-gray-600 break-all">{tweet.text}</div>
 
             <a href={tweet.url} target="_blank" rel="noreferrer" className="px-4 inline-block text-blue-400 hover:text-blue-400">
                 <p className="text-leading">{dayjs(tweet.created_at).fromNow()}</p>

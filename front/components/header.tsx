@@ -18,7 +18,7 @@ const Header: React.FC<Props> = ({ children, title, menu }) => {
                 <title>{title}</title>
                 <link rel="canonical" href={url} />
 
-                <meta name="viewport" content="width=device-width,initial-scale=1" />
+                <meta name="viewport" content="width=360,initial-scale=1" />
                 <meta name="application-name" content="emiru(β)" />
                 <meta name="theme-color" content="#f0d258" />
                 <meta name="description" content={description} />
