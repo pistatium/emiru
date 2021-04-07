@@ -56,9 +56,17 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section className="my-4 py-4 px-4 text-center bg-gray-100 rounded-md max-w-screen-sm mx-auto">
-                    <img src="/images/about_emiru.png" className="rounded  mx-auto" />
-                    <p className="text-gray-400 text-sm mt-1">利用イメージ</p>
+                <section className="my-4 mx-4 lg:mx-24 py-4 px-4 flex flex-col md:flex-row text-center bg-gray-100 rounded-md">
+                    <div className="md:w-1/2">
+                        <img src="/images/about_emiru.png" className="rounded  mx-auto" />
+                    </div>
+                    <div className="md:w-1/2 mt-8 md:mt-0">
+                        <h2 className="text-xl font-semibold font-heading text-gray-600">シンプルで使いやすいインターフェース</h2>
+                        <div className="mt-4 text-gray-600 mx-8 leading-normal text-sm">
+                            画像をみるのに特化したシンプルなデザインになっています。
+                            フォロー外のRT設定やセンシティブな画像のフィルターにも対応し、快適な閲覧をサポートします。
+                        </div>
+                    </div>
                 </section>
 
                 <section className="mx-4 lg:mx-24 py-4 px-4 bg-yellow-100 rounded text-gray-600">
