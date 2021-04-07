@@ -69,8 +69,8 @@ const Home: React.FC = () => {
                         <div className="lg:w-3/5 px-2 text-sm">
                             <p>
                                 ツイッターと「連携アプリを認証」することで、あなたのタイムラインの情報を取得します。
-                                また、アプリ内から「いいね」や「リツイート」をできるようにするため送信機能を利用しています。
-                                連携することによって勝手にツイートされるといったことはありません。
+                                また、アプリ内から「いいね」や「リツイート」をできるようにするため送信機能を利用しています。 Twitter
+                                と連携することによって勝手にツイートされることはありません。
                             </p>
                             <p className="py-2 font-bold underline">
                                 <a href="/privacy_policy">プライバシーポリシー</a>
@@ -79,9 +79,9 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section className="py-16 px-4 text-center text-gray-600 text-sm">
+                <section className="mt-16 px-4 text-center text-gray-600 text-sm">
                     <img src="/images/emiru.png" className="w-48 h-48 mx-auto" />
-                    <div className="py-2">スマホ、PCでブックマークして使うことで便利に使えます。PWA対応！</div>
+                    <div className="py-2">スマホ、PCでブックマークして使うことでアプリのように便利に使えます。PWA対応！</div>
                     <a
                         className="inline-block mt-4 py-4 px-8 leading-none text-white bg-blue-500 hover:bg-blue-700 font-semibold rounded shadow"
                         href="/app/login"
