@@ -4,7 +4,6 @@ import { GetTweetResponse, Tweet } from '../types/tweets'
 import { useSWRInfinite } from 'swr'
 import TweetList from './tweet_list'
 import PullToRefresh from 'react-simple-pull-to-refresh'
-import { List } from '../types/lists'
 
 interface Props {
     listID: string
@@ -56,18 +55,31 @@ const Timeline: React.FC<Props> = ({ children, listID, onlyFollowersRT, filterSe
             errorMsg = `エラー: ${error}`
         }
     }
-    if (responses && responses.length > 0 && responses.slice(-1)[0].tweets.length == 0) {
+    if (!responses) {
+        return (
+            <PullToRefresh
+                onRefresh={() => {
+                    return mutate()
+                }}
+            >
+                <div className="w-full block bg-white opacity-75 z-50 h-96">
+                    <span className="text-blue-500 opacity-75 top-1/2 my-0 mx-auto block relative w-0 h-0" style={{ top: '50%' }}>
+                        <i className="fas fa-circle-notch fa-spin fa-5x"></i>
+                    </span>
+                </div>
+            </PullToRefresh>
+        )
+    }
+    if (responses.length > 0 && responses.slice(-1)[0].tweets.length == 0) {
         errorMsg = 'これ以上データはありません。 ※ Twitter APIの制約により、これより古いツイートを遡れません。'
     }
 
     const tweets: Array<Tweet> = responses ? responses.flatMap(resp => resp.tweets) : []
     const filteredTweets = filterTweet(tweets, onlyFollowersRT, filterSensitive)
-
     return (
         <>
             <PullToRefresh
                 onRefresh={() => {
-                    console.log('reload')
                     return mutate()
                 }}
             >

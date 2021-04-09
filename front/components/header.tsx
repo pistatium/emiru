@@ -54,6 +54,13 @@ const Header: React.FC<Props> = ({ children, title, menu }) => {
                 <meta name="msapplication-square310x310logo" content="/site-tile-310x310.png" />
                 <meta name="msapplication-TileColor" content="#0078d7" />
 
+                <link
+                    rel="stylesheet"
+                    href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css"
+                    integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM="
+                    crossOrigin="anonymous"
+                />
+
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
             </Head>
             <div className="flex items-center justify-between bg-gray-800 fixed w-full h-12 z-50 px-4">
