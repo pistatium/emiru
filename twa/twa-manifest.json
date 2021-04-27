@@ -1,0 +1,36 @@
+{
+  "packageId": "dev.pistatium.emiru.twa",
+  "host": "emiru.pistatium.dev",
+  "name": "emiru(エミル)",
+  "launcherName": "emiru",
+  "display": "standalone",
+  "themeColor": "#F0D258",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#F0D258",
+  "enableNotifications": true,
+  "startUrl": "/main",
+  "iconUrl": "https://emiru.pistatium.dev/images/emiru.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/home/kimihiro/src/emiru/twa/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://emiru.pistatium.dev/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "orientation": "any",
+  "fingerprints": [],
+  "appVersion": "1"
+}
