@@ -56,8 +56,8 @@ android {
         applicationId "dev.pistatium.emiru.twa"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 1
-        versionName "1"
+        versionCode 3
+        versionName "2"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
