@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "dev.pistatium.emiru.twa",
+                     "sha256_cert_fingerprints": ["24:C7:66:45:47:24:51:EB:98:60:2C:30:EB:B2:E5:65:2D:92:36:0B:2B:86:38:D5:26:AB:A0:4C:F6:59:BC:C2"] }
+      }
+]
